@@ -43,17 +43,18 @@ resource "aws_route" "internet-route" {
   gateway_id             = aws_internet_gateway.this-igw.id
 }
 resource "aws_network_interface" "this-nic" {
-  subnet_id = aws_subnet.public.id
+  subnet_id       = aws_subnet.public.id
+  private_ips      = [var.private_ip_address]
   security_groups = [aws_security_group.web-pub-sg.id]
   tags = {
     "Name" = "Application-1-nic"
   }
 }
 resource "aws_eip" "this-eip" {
-  vpc = true
-  network_interface = aws_network_interface.this-nic.id
-  associate_with_private_ip = "10.20.20.76"
-    tags = {
+  vpc                       = true
+  #network_interface         = aws_network_interface.this-nic.id
+  associate_with_private_ip = "10.20.20.121"
+  tags = {
     "Name" = "Application-1-eip"
   }
 }
