@@ -4,11 +4,11 @@ resource "aws_security_group" "web-pub-sg" {
   vpc_id      = aws_vpc.this.id
 
   ingress {
-    description = "from edmentum laptop"
-    from_port   = "0"
-    to_port     = "0"
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
+    description = "from my ip range"
+    from_port   = "3389"
+    to_port     = "3389"
+    protocol    = "tcp"
+    cidr_blocks = ["147.219.191.0/24"]
   }
   egress {
     cidr_blocks = ["0.0.0.0/0"]
