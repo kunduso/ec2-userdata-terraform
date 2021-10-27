@@ -1,4 +1,3 @@
-// todo: add an ec2 instance
 resource "aws_vpc" "this" {
   cidr_block = "10.20.20.0/25"
   tags = {
@@ -27,8 +26,12 @@ resource "aws_route_table" "this-rt" {
     "Name" = "Application-1-route-table"
   }
 }
-resource "aws_route_table_association" "this-rta" {
+resource "aws_route_table_association" "public" {
   subnet_id      = aws_subnet.public.id
+  route_table_id = aws_route_table.this-rt.id
+}
+resource "aws_route_table_association" "private" {
+  subnet_id      = aws_subnet.private.id
   route_table_id = aws_route_table.this-rt.id
 }
 resource "aws_internet_gateway" "this-igw" {
@@ -44,17 +47,33 @@ resource "aws_route" "internet-route" {
 }
 resource "aws_network_interface" "this-nic" {
   subnet_id       = aws_subnet.public.id
-  private_ips      = [var.private_ip_address]
+  private_ips     = var.private_ip_address
   security_groups = [aws_security_group.web-pub-sg.id]
   tags = {
     "Name" = "Application-1-nic"
   }
 }
-resource "aws_eip" "this-eip" {
-  vpc                       = true
-  #network_interface         = aws_network_interface.this-nic.id
-  associate_with_private_ip = "10.20.20.121"
-  tags = {
-    "Name" = "Application-1-eip"
-  }
-}
+// resource "aws_eip" "this-eip" {
+//   vpc                       = true
+//   network_interface         = aws_network_interface.this-nic.id
+//   associate_with_private_ip = var.private_ip_address
+//   tags = {
+//     "Name" = "Application-1-eip-1"
+//   }
+// }
+
+// resource "aws_eip" "extra-eip" {
+//   vpc                       = true
+//   associate_with_private_ip = "10.20.20.121"
+//   instance = aws_instance.app-server2.id
+//   tags = {
+//     "Name" = "Application-1-eip-2"
+//   }
+// }
+// resource "aws_eip" "extra-eip-2" {
+//   vpc                       = true
+//   associate_with_private_ip = "10.20.20.122"
+//   tags = {
+//     "Name" = "Application-1-eip-3"
+//   }
+// }

@@ -13,7 +13,7 @@ variable "region" {
   default = "us-east-2"
 }
 variable "private_ip_address" {
-  type    = string
-  default = "10.20.20.120"
+  type    = list(string)
+  default = ["10.20.20.120", "10.20.20.121"]
 
 }
