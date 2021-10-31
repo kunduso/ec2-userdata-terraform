@@ -47,14 +47,14 @@ resource "aws_route" "internet-route" {
 }
 resource "aws_network_interface" "this-nic" {
   subnet_id       = aws_subnet.public.id
-  private_ips     = var.private_ip_address
+  private_ips     = [var.private_ip_address]
   security_groups = [aws_security_group.web-pub-sg.id]
   tags = {
     "Name" = "Application-1-nic"
   }
 }
-// resource "aws_network_interface_attachment" "test" {
-//   instance_id          = aws_instance.app-server.id
-//   network_interface_id = aws_network_interface.this-nic.id
-//   device_index         = 1
-// }
+resource "aws_eip" "ip-one" {
+  vpc                       = true
+  network_interface         = aws_network_interface.this-nic.id
+  associate_with_private_ip = var.private_ip_address
+}
