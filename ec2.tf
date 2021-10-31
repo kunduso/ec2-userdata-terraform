@@ -43,6 +43,7 @@ resource "aws_instance" "app-server" {
   network_interface {
     network_interface_id = aws_network_interface.this-nic.id
     device_index         = 0
+delete_on_termination = false
   }
   key_name = "skundu-sandbox"
   tags = {
