@@ -53,27 +53,8 @@ resource "aws_network_interface" "this-nic" {
     "Name" = "Application-1-nic"
   }
 }
-// resource "aws_eip" "this-eip" {
-//   vpc                       = true
-//   network_interface         = aws_network_interface.this-nic.id
-//   associate_with_private_ip = var.private_ip_address
-//   tags = {
-//     "Name" = "Application-1-eip-1"
-//   }
-// }
-
-// resource "aws_eip" "extra-eip" {
-//   vpc                       = true
-//   associate_with_private_ip = "10.20.20.121"
-//   instance = aws_instance.app-server2.id
-//   tags = {
-//     "Name" = "Application-1-eip-2"
-//   }
-// }
-// resource "aws_eip" "extra-eip-2" {
-//   vpc                       = true
-//   associate_with_private_ip = "10.20.20.122"
-//   tags = {
-//     "Name" = "Application-1-eip-3"
-//   }
+// resource "aws_network_interface_attachment" "test" {
+//   instance_id          = aws_instance.app-server.id
+//   network_interface_id = aws_network_interface.this-nic.id
+//   device_index         = 1
 // }

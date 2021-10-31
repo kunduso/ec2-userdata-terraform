@@ -14,6 +14,6 @@ variable "region" {
 }
 variable "private_ip_address" {
   type    = list(string)
-  default = ["10.20.20.120", "10.20.20.121"]
+  default = ["10.20.20.120"]
 
 }
