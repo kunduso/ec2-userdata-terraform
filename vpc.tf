@@ -56,5 +56,7 @@ resource "aws_network_interface" "this-nic" {
 resource "aws_eip" "ip-one" {
   vpc                       = true
   network_interface         = aws_network_interface.this-nic.id
-  associate_with_private_ip = var.private_ip_address
+  tags = {
+    "Name" = "Application-1-ip"
+  }
 }
