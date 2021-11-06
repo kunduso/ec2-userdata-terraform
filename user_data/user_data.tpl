@@ -1,6 +1,6 @@
 <powershell>
 
-#Function Declarations
+#Function to store log data
 function Write-Log {
     [CmdletBinding()]
     param(
@@ -8,14 +8,12 @@ function Write-Log {
         [ValidateNotNullOrEmpty()]
         [string]$Message
     )
- 
     [pscustomobject]@{
         Time = (Get-Date -f g)
         Message = $Message
     } | Export-Csv -Path "c:\UserDataLog\UserDataLogFile.log" -Append -NoTypeInformation
  }
-
-
+#Create log file location
 if (-not(Test-Path "C:\UserDataLog"))
 {
     New-Item -ItemType directory -Path "C:\UserDataLog"
@@ -23,8 +21,7 @@ if (-not(Test-Path "C:\UserDataLog"))
 } else {
     Write-Log -Message "Folder already exists."
 }
-#record execution of Userdata
-Write-Log -Message "Userdata began execution at script location: $(get-location)"
-
- </powershell>
+#Userdata location
+Write-Log -Message "Userdata is stored at : $PSScriptRoot"
+</powershell>
 <persist>true</persist>
