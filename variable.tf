@@ -19,5 +19,5 @@ variable "private_ip_address" {
 }
 variable "ServerName" {
   type = string
-  default = "test-skundu-machine-1"
+  default = "app-server2"
 }
