@@ -17,3 +17,7 @@ variable "private_ip_address" {
   default = "10.20.20.120"
 
 }
+variable "ServerName" {
+  type = string
+  default = "test-skundu-machine-1"
+}

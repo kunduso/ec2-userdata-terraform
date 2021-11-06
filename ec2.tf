@@ -60,6 +60,7 @@ resource "aws_instance" "app-server2" {
   key_name               = "skundu-sandbox"
   user_data = templatefile("user_data/user_data.tpl",
     {
+      ServerName = var.ServerName
   })
   associate_public_ip_address = true
   tags = {
