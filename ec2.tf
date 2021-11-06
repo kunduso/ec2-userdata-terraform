@@ -37,19 +37,19 @@ data "aws_ami" "windows-ami" {
   owners      = ["amazon"]
 }
 
-resource "aws_instance" "app-server" {
-  instance_type = "t2.micro"
-  ami           = data.aws_ami.windows-ami.id
-  network_interface {
-    network_interface_id = aws_network_interface.this-nic.id
-    device_index         = 0
-delete_on_termination = false
-  }
-  key_name = "skundu-sandbox"
-  tags = {
-    Name = "app-server-1"
-  }
-}
+// resource "aws_instance" "app-server" {
+//   instance_type = "t2.micro"
+//   ami           = data.aws_ami.windows-ami.id
+//   network_interface {
+//     network_interface_id = aws_network_interface.this-nic.id
+//     device_index         = 0
+//     delete_on_termination = false
+//   }
+//   key_name = "skundu-sandbox"
+//   tags = {
+//     Name = "app-server-1"
+//   }
+// }
 
 resource "aws_instance" "app-server2" {
   instance_type          = "t2.micro"
@@ -58,6 +58,9 @@ resource "aws_instance" "app-server2" {
   subnet_id              = aws_subnet.public.id
   private_ip             = "10.20.20.122"
   key_name               = "skundu-sandbox"
+  user_data = templatefile("user_data/user_data.tpl",
+    {
+  })
   associate_public_ip_address = true
   tags = {
     Name = "app-server-2"
