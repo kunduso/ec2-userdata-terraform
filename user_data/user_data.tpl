@@ -37,7 +37,8 @@ if ($env:COMPUTERNAME -eq $ServerName)
 }
 if ((Get-WindowsFeature Web-Server).installed -ne 'True')
 {
-    Write-Log -Message "Windows feature is not installed."
+    Write-Log -Message "Windows feature is not installed and will be installed."
+    Install-WindowsFeature -Name Web-Server -IncludeAllSubFeature
 } else
 {
     Write-Log -Message "Windows feature is already installed."
