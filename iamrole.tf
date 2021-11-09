@@ -11,12 +11,20 @@ resource "aws_iam_policy" "ec2_policy" {
     Version = "2012-10-17"
     Statement = [
       {
+        Effect = "Allow"
         Action = [
-          "ec2:Describe*",
-        ]
-        Effect   = "Allow"
+          "ssm:DescribeParameters"
+        ],
         Resource = "*"
       },
+      {
+        Effect = "Allow",
+        Action = [
+          "ssm:GetParameters",
+          "ssm:GetParameter"
+        ],
+        Resource = "arn:aws:ssm:us-east-2:${local.account_id}:parameter/dev*"
+      }
     ]
   })
 }

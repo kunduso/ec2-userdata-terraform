@@ -68,3 +68,6 @@ resource "aws_instance" "app-server2" {
     Name = "app-server-2"
   }
 }
+locals {
+  account_id = aws_vpc.this.owner_id
+}
