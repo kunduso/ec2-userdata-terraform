@@ -18,6 +18,6 @@ variable "private_ip_address" {
 
 }
 variable "ServerName" {
-  type = string
+  type    = string
   default = "app-server2"
 }
