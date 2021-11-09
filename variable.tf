@@ -21,3 +21,8 @@ variable "ServerName" {
   type    = string
   default = "app-server2"
 }
+variable "SecureVariableOne" {
+  type      = string
+  default   = ""
+  sensitive = true
+}
