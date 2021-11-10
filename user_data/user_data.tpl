@@ -35,6 +35,7 @@ if ($env:COMPUTERNAME -eq $ServerName)
     Rename-Computer -NewName $ServerName -Restart -Force
     Write-Log -Message "The machine will be renamed and restarted."
 }
+#Check Windows feature 
 if ((Get-WindowsFeature Web-Server).installed -ne 'True')
 {
     Write-Log -Message "Windows feature is not installed and will be installed."
