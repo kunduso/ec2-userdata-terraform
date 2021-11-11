@@ -14,7 +14,7 @@ function Write-Log {
  }
 #Read input variables
 $ServerName = "${ServerName}"
-
+#----------------------------------
 #Create log file location
 if (-not(Test-Path "C:\UserDataLog"))
 {
@@ -23,9 +23,10 @@ if (-not(Test-Path "C:\UserDataLog"))
 } else {
     Write-Log -Message "Folder already exists."
 }
+#----------------------------------
 #Userdata location
 Write-Log -Message "Userdata script is stored at : $PSScriptRoot"
-
+#----------------------------------
 #Check Computer ServerName
 if ($env:COMPUTERNAME -eq $ServerName)
 {
@@ -35,6 +36,13 @@ if ($env:COMPUTERNAME -eq $ServerName)
     Rename-Computer -NewName $ServerName -Restart -Force
     Write-Log -Message "The machine will be renamed and restarted."
 }
+#----------------------------------
+#Read from ssm-parameter store
+#This way a secure variable can be passed into a user data script such that its value does not persist in the file
+$ASecureVariable = (get-ssmparameter -Name "/dev/SecureVariableOne" -WithDecryption $true).value
+#The below step is only to demonstrate that the above step actually worked. Secure values should not be printed.
+Write-Log -Message "The value of the secure variable that was read from ssm-parameter store is: $ASecureVariable"
+#----------------------------------
 #Check Windows feature 
 if ((Get-WindowsFeature Web-Server).installed -ne 'True')
 {
@@ -44,5 +52,6 @@ if ((Get-WindowsFeature Web-Server).installed -ne 'True')
 {
     Write-Log -Message "Windows feature is already installed."
 }
+#----------------------------------
 </powershell>
 <persist>true</persist>
