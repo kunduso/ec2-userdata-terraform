@@ -25,7 +25,9 @@ if (-not(Test-Path "C:\UserDataLog"))
 }
 #----------------------------------
 #Userdata location
+Write-Log -Message "-------------------------"
 Write-Log -Message "Userdata script is stored at : $PSScriptRoot"
+Write-Log -Message "`nExecution Beginning now..."
 #----------------------------------
 #Check Computer ServerName
 if ($env:COMPUTERNAME -eq $ServerName)
