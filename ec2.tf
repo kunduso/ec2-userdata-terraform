@@ -61,7 +61,8 @@ resource "aws_instance" "app-server2" {
   key_name               = "skundu-sandbox"
   user_data = templatefile("user_data/user_data.tpl",
     {
-      ServerName = var.ServerName
+      ServerName     = var.ServerName
+      SecureVariable = aws_ssm_parameter.parameter_one.name
   })
   associate_public_ip_address = true
   tags = {

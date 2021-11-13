@@ -14,6 +14,7 @@ function Write-Log {
  }
 #Read input variables
 $ServerName = "${ServerName}"
+$SecureVariable = "${SecureVariable}"
 #----------------------------------
 #Create log file location
 if (-not(Test-Path "C:\UserDataLog"))
@@ -27,7 +28,7 @@ if (-not(Test-Path "C:\UserDataLog"))
 #Userdata location
 Write-Log -Message "-------------------------"
 Write-Log -Message "Userdata script is stored at : $PSScriptRoot"
-Write-Log -Message "`nExecution Beginning now..."
+Write-Log -Message "Execution Beginning now..."
 #----------------------------------
 #Check Computer ServerName
 if ($env:COMPUTERNAME -eq $ServerName)
@@ -41,7 +42,7 @@ if ($env:COMPUTERNAME -eq $ServerName)
 #----------------------------------
 #Read from ssm-parameter store
 #This way a secure variable can be passed into a user data script such that its value does not persist in the file
-$ASecureVariable = (get-ssmparameter -Name "/dev/SecureVariableOne" -WithDecryption $true).value
+$ASecureVariable = (get-ssmparameter -Name "$SecureVariable" -WithDecryption $true).value
 #The below step is only to demonstrate that the above step actually worked. Secure values should not be printed.
 Write-Log -Message "The value of the secure variable that was read from ssm-parameter store is: $ASecureVariable"
 #----------------------------------
