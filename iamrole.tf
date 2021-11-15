@@ -4,7 +4,6 @@ resource "aws_iam_policy" "ec2_policy" {
   name        = "ec2_policy"
   path        = "/"
   description = "Policy to provide permission to EC2"
-
   # Terraform's "jsonencode" function converts a
   # Terraform expression result to valid JSON syntax.
   policy = jsonencode({
@@ -17,6 +16,16 @@ resource "aws_iam_policy" "ec2_policy" {
           "ssm:GetParameter"
         ],
         Resource = "arn:aws:ssm:us-east-2:${local.account_id}:parameter/dev*"
+      },
+      {
+        "Effect": "Allow",
+        "Action": [
+            "s3:GetObject",
+            "s3:List*"
+        ],
+        "Resource": [
+            "arn:aws:s3:::skundu-proj3-3p-installers/download/*"
+        ]
       }
     ]
   })
