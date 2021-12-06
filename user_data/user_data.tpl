@@ -46,16 +46,6 @@ $ASecureVariable = (get-ssmparameter -Name "$SecureVariable" -WithDecryption $tr
 #The below step is only to demonstrate that the above step actually worked. Secure values should not be printed.
 Write-Log -Message "The value of the secure variable that was read from ssm-parameter store is: $ASecureVariable"
 #----------------------------------
-#Check Windows feature 
-if ((Get-WindowsFeature Web-Server).installed -ne 'True')
-{
-    Write-Log -Message "Windows feature is not installed and will be installed."
-    Install-WindowsFeature -Name Web-Server -IncludeAllSubFeature
-} else
-{
-    Write-Log -Message "Windows feature is already installed."
-}
-#----------------------------------
 # Install AWS CLI
 Try
 {
