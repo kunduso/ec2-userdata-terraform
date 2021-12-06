@@ -52,8 +52,6 @@ Try
     $InstalledAwsVersion = $(aws --version) | Out-String -ErrorAction SilentlyContinue
 }
 Catch{}
-
-#$InstalledawsVersion
 if (($InstalledAwsVersion -match "aws-cli/") -and (Test-Path "C:\UserDataLog\InstallAWSFlag.txt" -PathType Leaf))
 {
     Write-Log -Message "aws cli is installed. Version: $InstalledAwsVersion"
