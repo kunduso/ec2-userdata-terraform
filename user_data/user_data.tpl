@@ -54,7 +54,7 @@ Try
 Catch{}
 
 #$InstalledawsVersion
-if ($InstalledAwsVersion -match "aws-cli/")
+if (($InstalledAwsVersion -match "aws-cli/") -and (Test-Path "C:\UserDataLog\InstallAWSFlag.txt" -PathType Leaf))
 {
     Write-Log -Message "aws cli is installed. Version: $InstalledAwsVersion"
 } else {
@@ -65,17 +65,15 @@ if ($InstalledAwsVersion -match "aws-cli/")
         $WebClient.DownloadFile("https://awscli.amazonaws.com/AWSCLIV2.msi","C:\UserDataLog\awscliv2.msi")
         Write-Log -Message "Downloaded the cli installer."
     }
-    #
-    #msiexec.exe /i awscliv2.msi /qn /l*v install.log
     Start-Process msiexec.exe -Wait -ArgumentList '/i C:\UserDataLog\awscliv2.msi /qn /l*v C:\UserDataLog\aws-cli-install.log'
     Write-Log -Message "aws cli installed."
-    if(Test-Path "C:\UserDataLog\aws-version.ps1" -PathType Leaf)
+    if(Test-Path "C:\UserDataLog\InstallAWSFlag.txt" -PathType Leaf)
     {
-        Remove-Item -Path "C:\UserDataLog\aws-version.ps1" -Force
+        Remove-Item -Path "C:\UserDataLog\InstallAWSFlag.txt" -Force
     }
-    Set-Content C:\UserDataLog\aws-version.ps1 'aws --version'
-    Write-Log -Message "Verifying aws cli version."
-    &"C:\UserDataLog\aws-version.ps1"
+    Set-Content C:\UserDataLog\InstallAWSFlag.txt "true"
+    Write-Log -Message "Restarting the machine."
+    Restart-Computer -Force
 }
 </powershell>
 <persist>true</persist>
