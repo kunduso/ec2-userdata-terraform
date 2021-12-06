@@ -56,32 +56,36 @@ if ((Get-WindowsFeature Web-Server).installed -ne 'True')
     Write-Log -Message "Windows feature is already installed."
 }
 #----------------------------------
-$ListofModulesInstalled = (Get-InstalledModule).Name
-Write-Log -Message "Ckecking if AWS.Tools.Installer is installed on this instance."
-if ($ListofModulesInstalled -contains "AWS.Tools.Installer")
-{ 
-    Write-Log -Message "AWS.Tools.Installer module exists."
-}else { 
-    Write-Log -Message "AWS.Tools.Installer module does not exist and needs to be installed."
-    $ListofPackagesInstalled = (Get-PackageProvider -ListAvailable).Name
-    Write-Log -Message "AWS.Tools.Installer requires nuget package version 2.8.5.201 or above to be installed. Checking if correct version of nuget package is installed."
-    if ($ListofPackagesInstalled -contains "Nuget")
+# Install AWS CLI
+Try
+{
+    $InstalledAwsVersion = $(aws --version) | Out-String -ErrorAction SilentlyContinue
+}
+Catch{}
+
+#$InstalledawsVersion
+if ($InstalledAwsVersion -match "aws-cli/")
+{
+    Write-Log -Message "aws cli is installed. Version: $InstalledAwsVersion"
+} else {
+    Write-Log -Message "aws cli is not installed and will be installed."
+    if (-not(Test-Path "C:\UserDataLog\awscliv2.msi" -PathType Leaf))
     {
-        Write-Log -Message "Nuget package exists. Ckecking version."
-        $CheckNugetVersion=(get-PackageProvider -Name NuGet).Version
-        if($CheckNugetVersion -ge "2.8.5.201")
-        {
-            Write-Log -Message "Nuget version is $CheckNugetVersion and that is acceptable."
-        }else {
-            Write-Log -Message "Nuget version is $CheckNugetVersion and a newer package will be installed."
-            Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force
-        }
-    } else {
-        Write-Log -Message "Nugest package does not exists and will be installed."
-        Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force
+        $WebClient = New-Object System.Net.WebClient
+        $WebClient.DownloadFile("https://awscli.amazonaws.com/AWSCLIV2.msi","C:\UserDataLog\awscliv2.msi")
+        Write-Log -Message "Downloaded the cli installer."
     }
-    Install-Module -Name AWS.Tools.Installer -Force
-    Write-Log -Message "AWS.Tools.Installer was installed successfully."
+    #
+    #msiexec.exe /i awscliv2.msi /qn /l*v install.log
+    Start-Process msiexec.exe -Wait -ArgumentList '/i C:\UserDataLog\awscliv2.msi /qn /l*v C:\UserDataLog\aws-cli-install.log'
+    Write-Log -Message "aws cli installed."
+    if(Test-Path "C:\UserDataLog\aws-version.ps1" -PathType Leaf)
+    {
+        Remove-Item -Path "C:\UserDataLog\aws-version.ps1" -Force
+    }
+    Set-Content C:\UserDataLog\aws-version.ps1 'aws --version'
+    Write-Log -Message "Verifying aws cli version."
+    &"C:\UserDataLog\aws-version.ps1"
 }
 </powershell>
 <persist>true</persist>
