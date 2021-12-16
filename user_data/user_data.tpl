@@ -72,6 +72,19 @@ if (($InstalledAwsVersion -match "aws-cli/") -and (Test-Path "C:\UserDataLog\Ins
     Set-Content C:\UserDataLog\InstallAWSFlag.txt "true"
     Write-Log -Message "Restarting the machine."
     Restart-Computer -Force
+    Exit
 }
+#----------------------------------
+#Download file from S3 bucket into the EC2 instance
+Try
+{
+    if (($InstalledAwsVersion -match "aws-cli/") -and (Test-Path "C:\UserDataLog\InstallAWSFlag.txt" -PathType Leaf))
+    {
+        Write-Log -Message "Attempting to download the files."
+        Copy-S3Object -BucketName skundu-proj3-3p-installers -KeyPrefix '/download' -LocalFolder C:\UserDataLog\download
+    }
+}
+Catch{}
+Write-Log -Message "Downloaded the files."
 </powershell>
 <persist>true</persist>

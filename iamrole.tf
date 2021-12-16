@@ -24,7 +24,8 @@ resource "aws_iam_policy" "ec2_policy" {
             "s3:List*"
         ],
         "Resource": [
-            "arn:aws:s3:::skundu-proj3-3p-installers/download/*"
+            "arn:aws:s3:::skundu-proj3-3p-installers/*",
+            "arn:aws:s3:::skundu-proj3-3p-installers"
         ]
       }
     ]
