@@ -23,7 +23,7 @@ resource "aws_security_group" "web-pub-sg" {
 data "aws_ami" "windows-ami" {
   filter {
     name   = "name"
-    values = ["Windows_Server-2019-English-Full-Base-2021*"]
+    values = ["Windows_Server-2019-English-Full-Base-2023*"]
   }
   filter {
     name   = "platform"
@@ -58,7 +58,6 @@ resource "aws_instance" "app-server2" {
   subnet_id              = aws_subnet.public.id
   private_ip             = "10.20.20.122"
   iam_instance_profile   = aws_iam_instance_profile.ec2_profile.name
-  key_name               = "skundu-sandbox"
   user_data = templatefile("user_data/user_data.tpl",
     {
       ServerName     = var.ServerName
