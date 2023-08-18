@@ -23,7 +23,7 @@ resource "aws_security_group" "web-pub-sg" {
 data "aws_ami" "windows-ami" {
   filter {
     name   = "name"
-    values = ["Windows_Server-2019-English-Full-Base-2021*"]
+    values = ["Windows_Server-2019-English-Full-Base-2023*"]
   }
   filter {
     name   = "platform"
