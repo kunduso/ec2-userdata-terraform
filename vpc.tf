@@ -4,14 +4,6 @@ resource "aws_vpc" "this" {
     "Name" = "Application-1"
   }
 }
-resource "aws_subnet" "private" {
-  vpc_id            = aws_vpc.this.id
-  cidr_block        = "10.20.20.0/26"
-  availability_zone = "us-east-2a"
-  tags = {
-    "Name" = "Application-1-private"
-  }
-}
 resource "aws_subnet" "public" {
   vpc_id            = aws_vpc.this.id
   cidr_block        = "10.20.20.64/26"
@@ -28,10 +20,6 @@ resource "aws_route_table" "this-rt" {
 }
 resource "aws_route_table_association" "public" {
   subnet_id      = aws_subnet.public.id
-  route_table_id = aws_route_table.this-rt.id
-}
-resource "aws_route_table_association" "private" {
-  subnet_id      = aws_subnet.private.id
   route_table_id = aws_route_table.this-rt.id
 }
 resource "aws_internet_gateway" "this-igw" {
