@@ -1,4 +1,4 @@
-![Image](https://skdevops.files.wordpress.com/2021/10/53.image-1-1.png)
+![Image](https://skdevops.files.wordpress.com/2021/11/53.image-1.png)
 ## Motivation
 One of the first components I created on AWS cloud was an EC2 instance by watching hands-on tutorials. Little did I know about the infrastructure bits that went behind that. In this repository, I have the terraform code to create two AWS EC2 instances using infrastructure as code approach.
 <br />I have supporting documentation on my note at: [create-aws-ec2-using-terraform](https://skundunotes.com/2021/11/01/create-aws-ec2-using-terraform/)
