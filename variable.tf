@@ -17,6 +17,14 @@ variable "secret_key" {
   sensitive   = true
   default     = ""
 }
+variable "vpc_cidr" {
+  description = "CIDR for the VPC."
+  default     = "10.20.20.0/25"
+}
+variable "subnet_cidr_public" {
+  description = "CIDR blocks for the public subnet. "
+  default     = "10.20.20.0/25"
+}
 variable "ami_name" {
   description = "The ami name of the image from where the instances will be created"
   default     = ["amzn2-ami-amd-hvm-2.0.20230727.0-x86_64-gp2"]
