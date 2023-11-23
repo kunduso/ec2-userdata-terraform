@@ -10,7 +10,7 @@ data "aws_availability_zones" "available" {
 resource "aws_subnet" "public" {
   vpc_id            = aws_vpc.this.id
   cidr_block        = var.subnet_cidr_public
-  availability_zone = data.aws_availability_zones.available.names[(count.index) % length(data.aws_availability_zones.available.names)]
+  availability_zone = data.aws_availability_zones.available.names[0]
   tags = {
     "Name" = "app-1-public"
   }
