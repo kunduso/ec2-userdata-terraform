@@ -25,6 +25,6 @@ resource "aws_secretsmanager_secret" "secret_json" {
 resource "aws_secretsmanager_secret_version" "secret_json" {
   secret_id     = aws_secretsmanager_secret.secret_json.id
   secret_string = <<EOF
-  {"username": "terraform","password":"${random_password.random_secret_json.result}"}
+  {"username": "terraform", "password":"${random_password.random_secret_json.result}"}
   EOF
 }
