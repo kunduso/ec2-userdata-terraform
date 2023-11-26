@@ -1,33 +1,26 @@
-resource "aws_security_group" "web-pub-sg" {
-  name        = "allow_web_access"
-  description = "allow inbound traffic"
-  vpc_id      = aws_vpc.this.id
-
+resource "aws_security_group" "ec2_instance" {
+  name        = "app-1-ec2"
+  description = "Allow inbound to and outbound access from the Amazon EC2 instance."
   ingress {
-    description = "from my ip range"
-    from_port   = "3389"
-    to_port     = "3389"
-    protocol    = "tcp"
-    cidr_blocks = ["147.219.191.0/24"]
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = [var.vpc_cidr]
+    description = "Enable access from any resource inside the VPC."
   }
   egress {
-    cidr_blocks = ["0.0.0.0/0"]
-    from_port   = "0"
+    from_port   = 0
+    to_port     = 0
     protocol    = "-1"
-    to_port     = "0"
+    cidr_blocks = ["0.0.0.0/0"]
+    description = "Enable access to the internet."
   }
-  tags = {
-    "Name" = "Application-1-sg"
-  }
+  vpc_id = aws_vpc.this.id
 }
-data "aws_ami" "windows-ami" {
+data "aws_ami" "amazon_ami" {
   filter {
     name   = "name"
-    values = ["Windows_Server-2019-English-Full-Base-2023*"]
-  }
-  filter {
-    name   = "platform"
-    values = ["windows"]
+    values = var.ami_name
   }
   filter {
     name   = "virtualization-type"
@@ -37,29 +30,35 @@ data "aws_ami" "windows-ami" {
   owners      = ["amazon"]
 }
 
-resource "aws_instance" "app-server" {
-  instance_type = "t2.micro"
-  ami           = data.aws_ami.windows-ami.id
-  network_interface {
-    network_interface_id = aws_network_interface.this-nic.id
-    device_index         = 0
-delete_on_termination = false
-  }
-  key_name = "skundu-sandbox"
-  tags = {
-    Name = "app-server-1"
-  }
-}
-
-resource "aws_instance" "app-server2" {
-  instance_type          = "t2.micro"
-  ami                    = data.aws_ami.windows-ami.id
-  vpc_security_group_ids = [aws_security_group.web-pub-sg.id]
-  subnet_id              = aws_subnet.public.id
-  private_ip             = "10.20.20.122"
-  key_name               = "skundu-sandbox"
+resource "aws_instance" "app-server-one" {
+  instance_type               = var.instance_type
+  ami                         = data.aws_ami.amazon_ami.id
+  vpc_security_group_ids      = [aws_security_group.ec2_instance.id]
+  iam_instance_profile        = aws_iam_instance_profile.ec2_profile.name
   associate_public_ip_address = true
+  subnet_id                   = aws_subnet.public.id
   tags = {
-    Name = "app-server-2"
+    Name = "app-1-server-1"
   }
+  user_data = templatefile("user_data/user_data_one.tpl",
+    {
+      Region                 = var.region,
+      secret_string = aws_secretsmanager_secret.secret_string.name
+  })
+}
+resource "aws_instance" "app-server-two" {
+  instance_type               = var.instance_type
+  ami                         = data.aws_ami.amazon_ami.id
+  vpc_security_group_ids      = [aws_security_group.ec2_instance.id]
+  iam_instance_profile        = aws_iam_instance_profile.ec2_profile.name
+  associate_public_ip_address = true
+  subnet_id                   = aws_subnet.public.id
+  tags = {
+    Name = "app-1-server-2"
+  }
+  user_data = templatefile("user_data/user_data_two.tpl",
+    {
+      Region                 = var.region,
+      secret_json = aws_secretsmanager_secret.secret_json.name
+  })
 }
