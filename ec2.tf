@@ -1,5 +1,5 @@
 resource "aws_security_group" "web-pub-sg" {
-  name        = "allow_web_access"
+  name        = "allow_inbound_access"
   description = "allow inbound traffic"
   vpc_id      = aws_vpc.this.id
 
