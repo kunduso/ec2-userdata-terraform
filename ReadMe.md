@@ -1,6 +1,8 @@
+[![License: Unlicense](https://img.shields.io/badge/license-Unlicense-white.svg)](https://choosealicense.com/licenses/unlicense/)
 ![Image](https://skdevops.files.wordpress.com/2023/11/86-image-0.png)
 ## Motivation
 *This GitHub repository contains multiple use cases of working with Terraform to provision Amazon EC2 instances. Specific Git branches separate these use cases. To read more about that, [click here](#other-use-cases-in-this-repository).*
+
  <br />I have the Terraform code in this branch to access the AWS Secrets Manager secret value using Python from an Amazon EC2 instance.
  <br />For that, I:
 <br />1. Created a couple of secrets and stored those inside AWS Secrets Manager secrets,
