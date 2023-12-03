@@ -1,5 +1,5 @@
 [![License: Unlicense](https://img.shields.io/badge/license-Unlicense-white.svg)](https://choosealicense.com/licenses/unlicense/)
-![Image](https://skdevops.files.wordpress.com/2021/11/53.image-1.png)
+![Image](https://skdevops.files.wordpress.com/2023/12/53-image-0.png)
 ## Motivation
 *This GitHub repository contains multiple use cases of working with Terraform to provision Amazon EC2 instances. Specific Git branches separate these use cases. To read more about that, [click here](#other-use-cases-in-this-repository).*
 
@@ -8,6 +8,7 @@ In this repository, I have the terraform code to create an AWS EC2 instance usin
 ## Prerequisites
 I installed `terraform` before I worked on this repository. Installation information is available in the [install guide.](https://www.terraform.io/downloads.html) <br />I used the `access_key` and the `secret_key` of an IAM user that had permission to create all the resources managed via this `terraform` code.
 <br />I created a `terraform.tfvars` file to store them.
+<br />I created an Amazon EC2 key pair (format: pem) for Windows Instance by following the guidance at [-create ec2-key-pair.](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/create-key-pairs.html#having-ec2-create-your-key-pair)
 ## Usage
 Ensure that the IAM user whose credentials are being used in this configuration has permission to create and manage all the resources that are included in this repository.
 <br />Review the code, especially the `ec2.tf` file and update the `ingress cidr_blocks` to allow access from your local network.
