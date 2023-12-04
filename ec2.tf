@@ -44,7 +44,11 @@ resource "aws_instance" "app-server" {
   subnet_id                   = aws_subnet.public.id
   key_name                    = "skundu-sandbox"
   associate_public_ip_address = true
+  user_data = templatefile("user_data/user_data.tpl",
+    {
+      ServerName = var.ServerName
+  })
   tags = {
-    Name = "app-1-server-1"
+    Name = var.ServerName
   }
 }
