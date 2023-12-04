@@ -1,5 +1,5 @@
 [![License: Unlicense](https://img.shields.io/badge/license-Unlicense-white.svg)](https://choosealicense.com/licenses/unlicense/)
-![Image](https://skdevops.files.wordpress.com/2023/12/53-image-0.png)
+![Image](https://skdevops.files.wordpress.com/2023/12/53-image-9.png)
 
 ## Motivation
 *This GitHub repository contains multiple use cases of working with Terraform to provision Amazon EC2 instances. Specific Git branches separate these use cases. To read more about that, [click here](#other-use-cases-in-this-repository).*
@@ -25,7 +25,7 @@ There are eight other branches in this repository discussing other use-cases:
 <br />
 No.|Use-Case | Branch
 |--- |--- |--- |
-|1.|Add a `user_data` script to an Amazon EC2 isntance|https://github.com/kunduso/ec2-userdata-terraform/blob/add-userdata/ReadMe.md|
+|1.|Add a `user_data` script to an Amazon EC2 instance|https://github.com/kunduso/ec2-userdata-terraform/blob/add-userdata/ReadMe.md|
 |2.| Install AWS.Tools module for PowerShell on Amazon EC2 instance running Windows Server using `user_data` script| https://github.com/kunduso/ec2-userdata-terraform/blob/add-aws.tools-powershell-to-userdata/ReadMe.md|
 |3.|Install AWS CLI on an Amazon EC2 instance running Windows Server using `user_data` script|https://github.com/kunduso/ec2-userdata-terraform/blob/add-awscli-to-userdata/ReadMe.md|
 |4.|Attach an AWS IAM role to an Amazon EC2 instance| https://github.com/kunduso/ec2-userdata-terraform/blob/add-iam-role/ReadMe.md|
