@@ -1,5 +1,5 @@
 resource "aws_ssm_parameter" "parameter_one" {
-  name  = "/dev/SecureVariableOne"
+  name  = "/app-1/SecureVariableOne"
   type  = "SecureString"
   value = var.SecureVariableOne
 }
