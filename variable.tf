@@ -21,3 +21,8 @@ variable "SecureVariableOne" {
   default   = ""
   sensitive = true
 }
+variable "s3_bucket_name" {
+  type      = string
+  description = "The S3 bucket name to store the files from the file folder in this repository. "
+  default   = "your-s3-bucket-name"
+}

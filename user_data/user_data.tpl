@@ -14,7 +14,7 @@ function Write-Log {
  }
 #Read input variables
 $ServerName = "${ServerName}"
-$SecureVariable = "${SecureVariable}"
+$S3_BucketName = "${S3_BucketName}"
 #----------------------------------
 #Create log file location
 if (-not(Test-Path "C:\UserDataLog"))
@@ -39,12 +39,6 @@ if ($env:COMPUTERNAME -eq $ServerName)
     Rename-Computer -NewName $ServerName -Restart -Force
     Write-Log -Message "The machine will be renamed and restarted."
 }
-#----------------------------------
-#Read from ssm-parameter store
-#This way a secure variable can be passed into a user data script such that its value does not persist in the file
-$ASecureVariable = (get-ssmparameter -Name "$SecureVariable" -WithDecryption $true).value
-#The below step is only to demonstrate that the above step actually worked. Secure values should not be printed.
-Write-Log -Message "The value of the secure variable that was read from ssm-parameter store is: $ASecureVariable"
 #----------------------------------
 # Install AWS CLI
 Try
@@ -81,7 +75,7 @@ Try
     if (($InstalledAwsVersion -match "aws-cli/") -and (Test-Path "C:\UserDataLog\InstallAWSFlag.txt" -PathType Leaf))
     {
         Write-Log -Message "Attempting to download the files."
-        Copy-S3Object -BucketName skundu-proj3-3p-installers -KeyPrefix '/download' -LocalFolder C:\UserDataLog\download
+        Copy-S3Object -BucketName $S3_BucketName -KeyPrefix '/download' -LocalFolder C:\UserDataLog\download
     }
 }
 Catch{}

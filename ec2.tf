@@ -47,8 +47,8 @@ resource "aws_instance" "app-server" {
   iam_instance_profile        = aws_iam_instance_profile.ec2_profile.name
   user_data = templatefile("user_data/user_data.tpl",
     {
-      ServerName     = var.ServerName
-      SecureVariable = aws_ssm_parameter.parameter_one.name
+      ServerName = var.ServerName
+      S3_BucketName = var.s3_bucket_name
   })
   tags = {
     Name = "app-1-server-1"

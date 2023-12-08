@@ -1,11 +1,10 @@
 [![License: Unlicense](https://img.shields.io/badge/license-Unlicense-white.svg)](https://choosealicense.com/licenses/unlicense/)[![GitHub pull-requests closed](https://img.shields.io/github/issues-pr-closed/kunduso/ec2-userdata-terraform)](https://GitHub.com/kunduso/ec2-userdata-terraform/pull/)[![GitHub pull-requests](https://img.shields.io/github/issues-pr/kunduso/ec2-userdata-terraform)](https://GitHub.com/kunduso/ec2-userdata-terraform/pull/)
 [![GitHub issues-closed](https://img.shields.io/github/issues-closed/kunduso/ec2-userdata-terraform)](https://github.com/kunduso/ec2-userdata-terraform/issues?q=is%3Aissue+is%3Aclosed)[![GitHub issues](https://img.shields.io/github/issues/kunduso/ec2-userdata-terraform)](https://GitHub.com/kunduso/ec2-userdata-terraform/issues/)
-![Image](https://skdevops.files.wordpress.com/2021/11/54.image-1.png)
+![Image](https://skdevops.files.wordpress.com/2021/12/59.image-1.png)
 ## Motivation
-Just because an application is hosted on a virtual machine does not mean that installing software, enabling features, and converting it to a useable component of an environment has to happen manually and, in the process, take longer. Over the last few years, I have learned of a few tools like Terraform that would help manage a cloud resource (like EC2) with a few lines of HCL code. But what after that? Merely provisioning a virtual machine is not enough. Without installing specific software and/or enabling certain features (I’m talking about Windows OS here), the provisioned virtual machine won’t be usable.
-<br />That is when UserData comes into the picture.<br />
-<br />**User data is the answer to automating all (or as much as possible) the manual steps applied once an EC2 is provisioned to host an application.**<br />
-<br />I have supporting documentation on my note at: [working-with-aws-ec2-user-data-and-terraform](https://skundunotes.com/2021/11/07/working-with-aws-ec2-user-data-and-terraform/)
+I required a few files and folders on an Amazon EC2 instance as part of the provisioning process. So, the objective was to upload these files and folders into an Amazon S3 bucket and download them from the Amazon EC2 instance with the assistance of the user data script and Terraform.
+<br />I have supporting documentation on my note at: [download-aws-s3-bucket-into-an-ec2-instance-in-5-steps-using-user-data-and-terraform](https://skundunotes.com/2021/12/17/download-aws-s3-bucket-into-an-ec2-instance-in-5-steps-using-user-data-and-terraform/)
+
 ## Prerequisites
 I installed `terraform` before I worked on this repository. Installation information is available in the [install guide.](https://www.terraform.io/downloads.html) <br />I used the `access_key` and the `secret_key` of an IAM user that had permission to create all the resources managed via this `terraform` code.
 <br />I created a `terraform.tfvars` file to store them.
@@ -16,8 +15,7 @@ Ensure that the IAM user whose credentials are being used in this configuration 
 <br />
 <br />Next, run `terraform init`
 <br />Then run `terraform plan`
-
-<br />And finally run `terraform apply -var SecureVariableOne=ThisIsASecureValue`
+<br />And finally run `terraform apply`
 
 ## Other use-cases in this repository
 There are eight other branches in this repository discussing other use-cases:
@@ -31,7 +29,7 @@ No.|Use-Case | Branch
 |4.| Install AWS.Tools module for PowerShell on Amazon EC2 instance running Windows Server using `user_data` script| https://github.com/kunduso/ec2-userdata-terraform/blob/add-aws.tools-powershell-to-userdata/ReadMe.md|
 |5.|Install AWS CLI on an Amazon EC2 instance running Windows Server using `user_data` script|https://github.com/kunduso/ec2-userdata-terraform/blob/add-awscli-to-userdata/ReadMe.md|
 |6.|Create an Amazon EC2 instance with Session Manager access|https://github.com/kunduso/ec2-userdata-terraform/blob/add-iam-role-for-session-manager/ReadMe.md|
-|7.|Download Amazon S3 bucket contents to Amazon EC2 instance|https://github.com/kunduso/ec2-userdata-terraform/blob/add-s3-access/ReadMe.md|
+|7.|Manage sensitive variables in Amazon EC2 with AWS Systems Manager Parameter Store|https://github.com/kunduso/ec2-userdata-terraform/blob/add-ssm-parameter/ReadMe.md|
 |8.|Access AWS Secrets Manager secret from Amazon EC2 instance|https://github.com/kunduso/ec2-userdata-terraform/blob/access-secrets-python/ReadMe.md|
 
 ## License

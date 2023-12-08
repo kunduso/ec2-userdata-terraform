@@ -10,22 +10,14 @@ resource "aws_iam_policy" "ec2_policy" {
     Version = "2012-10-17"
     Statement = [
       {
-        Effect = "Allow",
-        Action = [
-          "ssm:GetParameters",
-          "ssm:GetParameter"
-        ],
-        Resource = "arn:aws:ssm:us-east-2:${local.account_id}:parameter/dev*"
-      },
-      {
         "Effect" : "Allow",
         "Action" : [
           "s3:GetObject",
           "s3:List*"
         ],
-        "Resource": [
-            "arn:aws:s3:::skundu-proj3-3p-installers/*",
-            "arn:aws:s3:::skundu-proj3-3p-installers"
+        "Resource" : [
+          "arn:aws:s3:::${var.s3_bucket_name}/*",
+          "arn:aws:s3:::${var.s3_bucket_name}"
         ]
       }
     ]
