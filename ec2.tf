@@ -48,7 +48,6 @@ resource "aws_instance" "app-server" {
   user_data = templatefile("user_data/user_data.tpl",
     {
       ServerName     = var.ServerName
-      SecureVariable = aws_ssm_parameter.parameter_one.name
   })
   tags = {
     Name = "app-1-server-1"
