@@ -17,7 +17,7 @@ resource "aws_security_group" "instance-sg" {
   #   to_port     = "0"
   # }
   tags = {
-    "Name" = "Application-1-sg"
+    "Name" = "app-1-ec2-sg"
   }
 }
 data "aws_ami" "windows-ami" {
@@ -37,34 +37,20 @@ data "aws_ami" "windows-ami" {
   owners      = ["amazon"]
 }
 
-// resource "aws_instance" "app-server" {
-//   instance_type = "t2.micro"
-//   ami           = data.aws_ami.windows-ami.id
-//   network_interface {
-//     network_interface_id = aws_network_interface.this-nic.id
-//     device_index         = 0
-//     delete_on_termination = false
-//   }
-//   key_name = "skundu-sandbox"
-//   tags = {
-//     Name = "app-server-1"
-//   }
-// }
-
-resource "aws_instance" "app-server2" {
-  instance_type          = "t2.micro"
-  ami                    = data.aws_ami.windows-ami.id
-  vpc_security_group_ids = [aws_security_group.instance-sg.id]
-  subnet_id              = aws_subnet.public.id
-  private_ip             = "10.20.20.122"
-  iam_instance_profile   = aws_iam_instance_profile.ec2_profile.name
+resource "aws_instance" "app-server" {
+  instance_type               = "t2.micro"
+  ami                         = data.aws_ami.windows-ami.id
+  vpc_security_group_ids      = [aws_security_group.web-pub-sg.id]
+  subnet_id                   = aws_subnet.public.id
+  key_name                    = "skundu-sandbox"
+  associate_public_ip_address = true
+  iam_instance_profile        = aws_iam_instance_profile.ec2_profile.name
   user_data = templatefile("user_data/user_data.tpl",
     {
       ServerName     = var.ServerName
   })
-  associate_public_ip_address = true
   tags = {
-    Name = "app-server-2"
+    Name = "app-1-server-1"
   }
 }
 locals {
