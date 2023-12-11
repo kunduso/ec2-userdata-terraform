@@ -16,6 +16,9 @@ resource "aws_security_group" "ec2_instance" {
     description = "Enable access to the internet."
   }
   vpc_id = aws_vpc.this.id
+  tags = {
+    "Name" = "app-1-ec2-sg"
+  }
 }
 data "aws_ami" "amazon_ami" {
   filter {
