@@ -4,7 +4,7 @@
 ## Motivation
 *This GitHub repository contains multiple use cases of working with Terraform to provision Amazon EC2 instances. Specific Git branches separate these use cases. To read more about that, [click here](#other-use-cases-in-this-repository).*
 
-I was under the impression that all AWS EC2 instances have the latest version of AWS CLI installed. So, I was in for a shock when I discovered that is not always the case. However, I was required to use the AWS CLI, so I automated the installation with the EC2 user data script and Terraform.
+I was under the impression that all Amazon EC2 instances have the latest version of AWS CLI installed. So, I was in for a shock when I discovered that is not always the case. However, I was required to use the AWS CLI, so I automated the installation with the EC2 user data script and Terraform.
 <br />I have supporting documentation on my note at: [install-aws-cli-on-a-windows-ec2-instance-using-terraform-and-user-data](https://skundunotes.com/2021/12/07/install-aws-cli-on-a-windows-ec2-instance-using-terraform-and-user-data/)
 
 ## Prerequisites
@@ -33,6 +33,7 @@ No.|Use-Case | Branch
 |6.|Create an Amazon EC2 instance with Session Manager access|https://github.com/kunduso/ec2-userdata-terraform/blob/add-iam-role-for-session-manager/ReadMe.md|
 |7.|Download Amazon S3 bucket contents to Amazon EC2 instance|https://github.com/kunduso/ec2-userdata-terraform/blob/add-s3-access/ReadMe.md|
 |8.|Access AWS Secrets Manager secret from Amazon EC2 instance|https://github.com/kunduso/ec2-userdata-terraform/blob/access-secrets-python/ReadMe.md|
+|9.|Create an Amazon EC2 instance using Terraform with Session Manager access using VPC Endpoint|https://github.com/kunduso/ec2-userdata-terraform/blob/add-vpc-endpoint/ReadMe.md|
 
 ## License
 This code is released under the Unlincse License. See [LICENSE](LICENSE).
