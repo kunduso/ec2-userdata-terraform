@@ -2,7 +2,8 @@
 [![GitHub issues-closed](https://img.shields.io/github/issues-closed/kunduso/ec2-userdata-terraform)](https://github.com/kunduso/ec2-userdata-terraform/issues?q=is%3Aissue+is%3Aclosed)[![GitHub issues](https://img.shields.io/github/issues/kunduso/ec2-userdata-terraform)](https://GitHub.com/kunduso/ec2-userdata-terraform/issues/)
 ![Image](https://skdevops.files.wordpress.com/2021/12/59-image-1.png)
 ## Motivation
-I required a few files and folders on an Amazon EC2 instance as part of the provisioning process. So, the objective was to upload these files and folders into an Amazon S3 bucket and download them from the Amazon EC2 instance with the assistance of the user data script and Terraform.
+*This GitHub repository contains multiple use cases of working with Terraform to provision Amazon EC2 instances. Specific Git branches separate these use cases. To read more about that, [click here](#other-use-cases-in-this-repository).*
+<br />I required a few files and folders on an Amazon EC2 instance as part of the provisioning process. So, the objective was to upload these files and folders into an Amazon S3 bucket and download them from the Amazon EC2 instance with the assistance of the user data script and Terraform.
 <br />I have supporting documentation on my note at: [download-aws-s3-bucket-into-an-ec2-instance-in-5-steps-using-user-data-and-terraform](https://skundunotes.com/2021/12/17/download-aws-s3-bucket-into-an-ec2-instance-in-5-steps-using-user-data-and-terraform/)
 
 ## Prerequisites
@@ -31,6 +32,7 @@ No.|Use-Case | Branch
 |6.|Create an Amazon EC2 instance with Session Manager access|https://github.com/kunduso/ec2-userdata-terraform/blob/add-iam-role-for-session-manager/ReadMe.md|
 |7.|Manage sensitive variables in Amazon EC2 with AWS Systems Manager Parameter Store|https://github.com/kunduso/ec2-userdata-terraform/blob/add-ssm-parameter/ReadMe.md|
 |8.|Access AWS Secrets Manager secret from Amazon EC2 instance|https://github.com/kunduso/ec2-userdata-terraform/blob/access-secrets-python/ReadMe.md|
+|9.|Create an Amazon EC2 instance using Terraform with Session Manager access using VPC Endpoint|https://github.com/kunduso/ec2-userdata-terraform/blob/add-vpc-endpoint/ReadMe.md|
 
 ## License
 This code is released under the Unlincse License. See [LICENSE](LICENSE).
