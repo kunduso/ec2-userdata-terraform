@@ -1,12 +1,12 @@
 resource "aws_security_group" "instance-sg" {
-  name        = "allow_access"
-  description = "allow inbound traffic"
+  name        = "ec2_access"
+  description = "allow traffic to the ec2 instance"
   vpc_id      = aws_vpc.this.id
   egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    security_groups = [aws_security_group.endpoint-sg.id]
     description = "Enable access to the internet."
   }
   tags = {
@@ -35,7 +35,7 @@ resource "aws_instance" "app-server" {
   instance_type               = "t2.micro"
   ami                         = data.aws_ami.windows-ami.id
   vpc_security_group_ids      = [aws_security_group.instance-sg.id]
-  subnet_id                   = aws_subnet.public.id
+  subnet_id                   = aws_subnet.private.id
   associate_public_ip_address = true
   iam_instance_profile        = aws_iam_instance_profile.ec2_profile.name
   tags = {
