@@ -24,14 +24,3 @@ resource "aws_route_table_association" "public" {
   subnet_id      = aws_subnet.public.id
   route_table_id = aws_route_table.this-rt.id
 }
-resource "aws_internet_gateway" "this-igw" {
-  vpc_id = aws_vpc.this.id
-  tags = {
-    "Name" = "app-1-gateway"
-  }
-}
-resource "aws_route" "internet-route" {
-  destination_cidr_block = "0.0.0.0/0"
-  route_table_id         = aws_route_table.this-rt.id
-  gateway_id             = aws_internet_gateway.this-igw.id
-}
