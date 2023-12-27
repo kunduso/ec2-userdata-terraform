@@ -3,6 +3,8 @@ resource "aws_vpc" "this" {
   tags = {
     "Name" = "app-1"
   }
+  enable_dns_hostnames = true
+  enable_dns_support = true
 }
 resource "aws_subnet" "public" {
   vpc_id            = aws_vpc.this.id
