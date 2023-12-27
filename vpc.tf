@@ -4,7 +4,7 @@ resource "aws_vpc" "this" {
     "Name" = "app-1"
   }
   enable_dns_hostnames = true
-  enable_dns_support = true
+  enable_dns_support   = true
 }
 resource "aws_subnet" "private" {
   vpc_id            = aws_vpc.this.id

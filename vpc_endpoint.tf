@@ -14,33 +14,33 @@ resource "aws_security_group" "endpoint-sg" {
   }
 }
 resource "aws_vpc_endpoint" "ssm" {
-  vpc_id = aws_vpc.this.id
-  service_name = "com.amazonaws.us-east-2.ssm"
-  vpc_endpoint_type = "Interface"
-  subnet_ids = [aws_subnet.private.id]
-  security_group_ids = [aws_security_group.endpoint-sg.id]
+  vpc_id              = aws_vpc.this.id
+  service_name        = "com.amazonaws.us-east-2.ssm"
+  vpc_endpoint_type   = "Interface"
+  subnet_ids          = [aws_subnet.private.id]
+  security_group_ids  = [aws_security_group.endpoint-sg.id]
   private_dns_enabled = true
   tags = {
     "Name" = "app-1-ssm"
   }
 }
 resource "aws_vpc_endpoint" "ec2messages" {
-  vpc_id = aws_vpc.this.id
-  service_name = "com.amazonaws.us-east-2.ec2messages"
-  vpc_endpoint_type = "Interface"
-  subnet_ids = [aws_subnet.private.id]
-  security_group_ids = [aws_security_group.endpoint-sg.id]
+  vpc_id              = aws_vpc.this.id
+  service_name        = "com.amazonaws.us-east-2.ec2messages"
+  vpc_endpoint_type   = "Interface"
+  subnet_ids          = [aws_subnet.private.id]
+  security_group_ids  = [aws_security_group.endpoint-sg.id]
   private_dns_enabled = true
   tags = {
     "Name" = "app-1-ec2messages"
   }
 }
 resource "aws_vpc_endpoint" "messsmsages" {
-  vpc_id = aws_vpc.this.id
-  service_name = "com.amazonaws.us-east-2.ssmmessages"
-  vpc_endpoint_type = "Interface"
-  subnet_ids = [aws_subnet.private.id]
-  security_group_ids = [aws_security_group.endpoint-sg.id]
+  vpc_id              = aws_vpc.this.id
+  service_name        = "com.amazonaws.us-east-2.ssmmessages"
+  vpc_endpoint_type   = "Interface"
+  subnet_ids          = [aws_subnet.private.id]
+  security_group_ids  = [aws_security_group.endpoint-sg.id]
   private_dns_enabled = true
   tags = {
     "Name" = "app-1-ssmmessages"

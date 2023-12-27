@@ -3,11 +3,11 @@ resource "aws_security_group" "instance-sg" {
   description = "allow traffic to the ec2 instance"
   vpc_id      = aws_vpc.this.id
   egress {
-    from_port   = 443
-    to_port     = 443
-    protocol    = "tcp"
+    from_port       = 443
+    to_port         = 443
+    protocol        = "tcp"
     security_groups = [aws_security_group.endpoint-sg.id]
-    description = "Enable access to the internet."
+    description     = "Enable access to the internet."
   }
   tags = {
     "Name" = "app-1-ec2-sg"
