@@ -17,15 +17,6 @@ variable "name" {
   type        = string
   default     = "app-1"
 }
-# variable "ServerName" {
-#   type    = string
-#   default = "app-1-server-1"
-# }
-# variable "SecureVariableOne" {
-#   type      = string
-#   default   = ""
-#   sensitive = true
-# }
 variable "vpc_cidr" {
   description = "CIDR for the VPC."
   default     = "10.20.20.0/25"
