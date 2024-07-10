@@ -1,5 +1,5 @@
 resource "aws_security_group" "endpoint-sg" {
-  name        = "endpoint_access"
+  name        = "${var.name}-endpoint-access"
   description = "allow inbound traffic"
   vpc_id      = aws_vpc.this.id
   ingress {
@@ -10,7 +10,7 @@ resource "aws_security_group" "endpoint-sg" {
     description = "Enable access for the endpoints."
   }
   tags = {
-    "Name" = "app-1-endpoint-sg"
+    "Name" = "${var.name}-endpoint-sg"
   }
 }
 resource "aws_vpc_endpoint" "ssm" {
@@ -21,7 +21,7 @@ resource "aws_vpc_endpoint" "ssm" {
   security_group_ids  = [aws_security_group.endpoint-sg.id]
   private_dns_enabled = true
   tags = {
-    "Name" = "app-1-ssm"
+    "Name" = "${var.name}-ssm"
   }
 }
 resource "aws_vpc_endpoint" "ec2messages" {
@@ -32,7 +32,7 @@ resource "aws_vpc_endpoint" "ec2messages" {
   security_group_ids  = [aws_security_group.endpoint-sg.id]
   private_dns_enabled = true
   tags = {
-    "Name" = "app-1-ec2messages"
+    "Name" = "${var.name}-ec2messages"
   }
 }
 resource "aws_vpc_endpoint" "messsmsages" {
@@ -43,6 +43,6 @@ resource "aws_vpc_endpoint" "messsmsages" {
   security_group_ids  = [aws_security_group.endpoint-sg.id]
   private_dns_enabled = true
   tags = {
-    "Name" = "app-1-ssmmessages"
+    "Name" = "${var.name}-ssmmessages"
   }
 }

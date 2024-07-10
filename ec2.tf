@@ -1,5 +1,5 @@
 resource "aws_security_group" "instance-sg" {
-  name        = "ec2_access"
+  name        = "${var.name}-ec2-access"
   description = "allow traffic to the ec2 instance"
   vpc_id      = aws_vpc.this.id
   egress {
@@ -10,7 +10,7 @@ resource "aws_security_group" "instance-sg" {
     description     = "Enable access to the internet."
   }
   tags = {
-    "Name" = "app-1-ec2-sg"
+    "Name" = "${var.name}-ec2-sg"
   }
 }
 data "aws_ami" "windows-ami" {
@@ -39,7 +39,7 @@ resource "aws_instance" "app-server" {
   associate_public_ip_address = false
   iam_instance_profile        = aws_iam_instance_profile.ec2_profile.name
   tags = {
-    Name = "app-1-server-1"
+    Name = "${var.name}-server-1"
   }
 }
 locals {
