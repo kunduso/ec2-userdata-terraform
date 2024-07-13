@@ -6,12 +6,12 @@ resource "aws_vpc" "this" {
   enable_dns_hostnames = true
   enable_dns_support   = true
 }
-resource "aws_subnet" "private" {
+resource "aws_subnet" "public" {
   vpc_id            = aws_vpc.this.id
-  cidr_block        = var.subnet_cidr_private
+  cidr_block        = var.subnet_cidr_public
   availability_zone = "us-east-2a"
   tags = {
-    "Name" = "${var.name}-private"
+    "Name" = "${var.name}-public"
   }
 }
 resource "aws_route_table" "this-rt" {
@@ -20,7 +20,18 @@ resource "aws_route_table" "this-rt" {
     "Name" = "${var.name}-route-table"
   }
 }
-resource "aws_route_table_association" "private" {
-  subnet_id      = aws_subnet.private.id
+resource "aws_route_table_association" "public" {
+  subnet_id      = aws_subnet.public.id
   route_table_id = aws_route_table.this-rt.id
+}
+resource "aws_internet_gateway" "this-igw" {
+  vpc_id = aws_vpc.this.id
+  tags = {
+    "Name" = "${var.name}-gateway"
+  }
+}
+resource "aws_route" "internet-route" {
+  destination_cidr_block = "0.0.0.0/0"
+  route_table_id         = aws_route_table.this-rt.id
+  gateway_id             = aws_internet_gateway.this-igw.id
 }
