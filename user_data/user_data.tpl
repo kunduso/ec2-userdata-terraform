@@ -69,7 +69,7 @@ function Install-AWS-CLI {
         Write-Log -Message "Successfully installed aws cli."
 
         Write-Log -Message "Restarting the machine."
-        #Restart-Computer -Force
+        Restart-Computer -Force
     }
     Catch{}
 }
@@ -170,7 +170,7 @@ else {
     Write-Log -Message "Amazon CloudWatch is already installed."
 }
 
-$CheckSoftware = Get-WmiObject -Class Win32_Product | Where-Object {$*.Name -match "AWS Command Line Interface"}
+$CheckSoftware = Get-WmiObject -Class Win32_Product | Where-Object {$_.Name -match "AWS Command Line Interface"}
 if([string]::IsNullOrEmpty($CheckSoftware.Name)){
     Write-Log -Message "AWS Command Line Interface is not installed."
     Install-AWS-CLI
