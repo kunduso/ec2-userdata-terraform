@@ -14,7 +14,7 @@
 						],
 						"event_name": "System",
 						"log_group_class": "STANDARD",
-						"log_group_name": "/testing/first",
+						"log_group_name": "/app-1/log",
 						"log_stream_name": "{instance_id}",
 						"retention_in_days": 7
 					}
