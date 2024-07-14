@@ -187,9 +187,8 @@ else {
     }
     Write-Log -Message "AWS Command Line Interface is already installed. Version: $InstalledAwsVersion"
 }
-Write-Log -Message "The SSM Paramete name is: ${Parameter_Name}"
-#Read CW
-<#
+
+#Read CW Agent config file
 $FileContent =  $(aws ssm get-parameter --name "${Parameter_Name}" --query "Parameter.Value" --output text)
 Write-Host "The content are:"
 Set-Content C:\UserDataLog\config.json "$FileContent"
@@ -209,6 +208,6 @@ catch {
     Write-Log -Message "The Amazon CloudWatch Agent is not running."
     break
 }
-#>
+
 </powershell>
 <persist>true</persist>
