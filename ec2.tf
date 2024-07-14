@@ -1,6 +1,6 @@
 data "aws_ami" "windows-ami" {
   filter {
-    name   = "name"
+    name = "name"
     #values = ["amzn2-ami-amd-hvm-2.0.20230727.0-x86_64-gp2"]
     values = ["Windows_Server-2019-English-Full-Base-2023*"] // for linux "amzn2-ami-amd-hvm-2.0.20230727.0-x86_64-gp2"
   }
@@ -24,9 +24,9 @@ resource "aws_instance" "app-server" {
   associate_public_ip_address = true
   iam_instance_profile        = aws_iam_instance_profile.ec2_profile.name
   user_data = templatefile("user_data/user_data.tpl",
-  {
-    Password = var.password,
-    Parameter_Name = aws_ssm_parameter.cloudwatch_windows_config.name
+    {
+      Password       = var.password,
+      Parameter_Name = aws_ssm_parameter.cloudwatch_windows_config.name
   })
   tags = {
     Name = "${var.name}-server-1"
