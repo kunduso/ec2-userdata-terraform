@@ -47,10 +47,11 @@ resource "aws_iam_policy" "custom_policy_ssm" {
     Statement = [
       {
         Action = [
-          "ssm:*",
+          "ssm:GetParameters",
+          "ssm:GetParameter"
         ]
         Effect   = "Allow"
-        Resource = "${aws_ssm_parameter.cloudwatch_windows_config.name}"
+        Resource = "${aws_ssm_parameter.cloudwatch_windows_config.arn}"
       }
     ]
   })
@@ -60,4 +61,9 @@ resource "aws_iam_policy" "custom_policy_ssm" {
 resource "aws_iam_role_policy_attachment" "policy_attachment_custom_ssm" {
   role       = aws_iam_role.ec2_role.name
   policy_arn = aws_iam_policy.custom_policy_ssm.arn
+}
+
+resource "aws_iam_role_policy_attachment" "custom_cw_agent" {
+  role       = aws_iam_role.ec2_role.name
+  policy_arn = "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy"
 }
