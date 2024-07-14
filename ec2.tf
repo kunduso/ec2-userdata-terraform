@@ -25,7 +25,8 @@ resource "aws_instance" "app-server" {
   iam_instance_profile        = aws_iam_instance_profile.ec2_profile.name
   user_data = templatefile("user_data/user_data.tpl",
   {
-    Password = var.password
+    Password = var.password,
+    Parameter_Name = aws_ssm_parameter.cloudwatch_windows_config.name
   })
   tags = {
     Name = "${var.name}-server-1"
