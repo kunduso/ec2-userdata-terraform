@@ -12,3 +12,7 @@ variable "region" {
   type    = string
   default = "us-east-2"
 }
+variable "ServerName" {
+  type    = string
+  default = "app-1-server-1"
+}
