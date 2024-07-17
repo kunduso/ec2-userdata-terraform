@@ -26,7 +26,7 @@ There are ten other branches in this repository discussing other use-cases:
 <br />
 No.|Use-Case | Branch
 |--- |--- |--- |
-|1.|Add an Amazon EC2 instance|https://github.com/kunduso/ec2-userdata-terraform#readme|
+|1.|Add an Amazon EC2 instance|https://github.com/kunduso/ec2-userdata-terraform/blob/add-amazon-ec2/ReadMe.md|
 |2.| Install AWS.Tools module for PowerShell on Amazon EC2 instance running Windows Server using `user_data` script| https://github.com/kunduso/ec2-userdata-terraform/blob/add-aws.tools-powershell-to-userdata/ReadMe.md|
 |3.|Install AWS CLI on an Amazon EC2 instance running Windows Server using `user_data` script|https://github.com/kunduso/ec2-userdata-terraform/blob/add-awscli-to-userdata/ReadMe.md|
 |4.|Attach an AWS IAM role to an Amazon EC2 instance| https://github.com/kunduso/ec2-userdata-terraform/blob/add-iam-role/ReadMe.md|
