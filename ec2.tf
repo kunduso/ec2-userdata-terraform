@@ -31,6 +31,3 @@ resource "aws_instance" "app-server" {
     Name = "${var.name}-server-1"
   }
 }
-locals {
-  account_id = aws_vpc.this.owner_id
-}
