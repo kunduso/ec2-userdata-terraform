@@ -12,7 +12,18 @@ variable "region" {
   type    = string
   default = "us-east-2"
 }
-variable "ServerName" {
-  type    = string
-  default = "app-1-server-1"
+variable "name" {
+  description = "The name of the application."
+  type        = string
+  default     = "app-1"
+}
+variable "vpc_cidr" {
+  description = "CIDR for the VPC."
+  default     = "10.20.20.0/25"
+  type        = string
+}
+variable "subnet_cidr_public" {
+  description = "CIDR blocks for the public subnet."
+  default     = "10.20.20.64/26"
+  type        = string
 }
