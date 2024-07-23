@@ -20,7 +20,7 @@ Message = $Message
 ##############################################
 $LogFolderPath = "C:\UserDataLog"
 $InstallerFolderPath = $LogFolderPath+"\Installer"
-$UserName = "User03"
+$UserName = "$env:COMPUTERNAME"+"\"+"User03"
 
 #Create log file location
 if (-not(Test-Path $LogFolderPath))
