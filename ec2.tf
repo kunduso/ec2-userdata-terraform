@@ -39,10 +39,8 @@ resource "aws_instance" "app-server" {
   subnet_id                   = aws_subnet.private.id
   associate_public_ip_address = false
   iam_instance_profile        = aws_iam_instance_profile.ec2_profile.name
+  user_data = templatefile("user_data/user_data.tpl",)
   tags = {
     Name = "${var.name}-server-1"
   }
-}
-locals {
-  account_id = aws_vpc.this.owner_id
 }
