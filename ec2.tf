@@ -31,6 +31,7 @@ data "aws_ami" "windows-ami" {
   owners      = ["amazon"]
 }
 
+data "aws_caller_identity" "current" {}
 resource "aws_instance" "app-server" {
   instance_type               = "t2.micro"
   ami                         = data.aws_ami.windows-ami.id
