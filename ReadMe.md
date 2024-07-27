@@ -1,12 +1,14 @@
 [![License: Unlicense](https://img.shields.io/badge/license-Unlicense-white.svg)](https://choosealicense.com/licenses/unlicense/) [![GitHub pull-requests closed](https://img.shields.io/github/issues-pr-closed/kunduso/ec2-userdata-terraform)](https://GitHub.com/kunduso/ec2-userdata-terraform/pull/) [![GitHub pull-requests](https://img.shields.io/github/issues-pr/kunduso/ec2-userdata-terraform)](https://GitHub.com/kunduso/ec2-userdata-terraform/pull/) 
 [![GitHub issues-closed](https://img.shields.io/github/issues-closed/kunduso/ec2-userdata-terraform)](https://github.com/kunduso/ec2-userdata-terraform/issues?q=is%3Aissue+is%3Aclosed) [![GitHub issues](https://img.shields.io/github/issues/kunduso/ec2-userdata-terraform)](https://GitHub.com/kunduso/ec2-userdata-terraform/issues/) 
-![Image](https://skdevops.files.wordpress.com/2023/12/88-image-0-1.png)
+![Image](https://skdevops.files.wordpress.com/2024/07/98-image-0.png)
 ## Motivation
 *This GitHub repository contains multiple use cases of working with Terraform to provision Amazon EC2 instances. Specific Git branches separate these use cases. To read more about that, [click here](#other-use-cases-in-this-repository).*
 
-I came across a use cases where I wanted to connect to an Amazon EC2 instance **without enabling access to the internet** or opening up ingress ports (SSH or Remote Desktop) in the Amazon EC2 security group. I learned about the capability of attaching the AWS managed policy `arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore` to the Amazon EC2 instance to manage access from the AWS Console.
+Securely accessing and managing your Amazon EC2 instances for Windows has become a critical task for cloud engineers and IT administrators. In this [blog post](https://skundunotes.com/2024/07/27/secure-rdp-access-to-amazon-ec2-for-windows-leveraging-fleet-manager-and-session-manager/), I explored how you can leverage AWS Systems Manager's Fleet Manager to remotely connect to your EC2 instances using the familiar Remote Desktop Protocol (RDP), without the need for complex network configurations or exposing your instances to the public internet.
 
-<br />I have supporting documentation on my note at: [create an Amazon EC2 instance using Terraform with Session Manager access using VPC Endpoint.](http://skundunotes.com/2023/12/27/create-an-amazon-ec2-instance-using-terraform-with-session-manager-access-using-vpc-endpoint/)
+This repository contains the Terraform code to provision an Amazon EC2 instance for Windows with secure RDP access using AWS Systems Manager's Fleet Manager. The code demonstrates how to set up the necessary AWS services, including VPC Endpoints, security groups, and IAM policies, to enable this secure remote access solution.
+
+
 ## Prerequisites
 I installed `terraform` before I worked on this repository. Installation information is available in the [install guide.](https://www.terraform.io/downloads.html) <br />I used the `access_key` and the `secret_key` of an IAM user that had permission to create all the resources managed via this `terraform` code.
 <br />I created a `terraform.tfvars` file to store them.
@@ -20,7 +22,7 @@ Ensure that the IAM user whose credentials are being used in this configuration 
 <br />And finally run `terraform apply`
 
 ## Other use-cases in this repository
-There are ten other branches in this repository discussing other use-cases:
+There are eleven other branches in this repository discussing other use-cases:
 <br />
 <br />
 No.|Use-Case | Branch
@@ -35,6 +37,7 @@ No.|Use-Case | Branch
 |8.|Access AWS Secrets Manager secret from Amazon EC2 instance|https://github.com/kunduso/ec2-userdata-terraform/blob/access-secrets-python/ReadMe.md|
 |9.|Create an Amazon EC2 instance with Session Manager access|https://github.com/kunduso/ec2-userdata-terraform/blob/add-iam-role-for-session-manager/ReadMe.md|
 |10.|Install and configure CloudWatch Logs agent on Amazon EC2 instance for Windows using user data|https://github.com/kunduso/ec2-userdata-terraform/blob/add-cloudwatch-agent/ReadMe.md|
+|11.|Create an Amazon EC2 instance using Terraform with Session Manager access using VPC Endpoint|https://github.com/kunduso/ec2-userdata-terraform/blob/add-vpc-endpoint/ReadMe.md|
 
 ## License
 This code is released under the Unlincse License. See [LICENSE](LICENSE).
