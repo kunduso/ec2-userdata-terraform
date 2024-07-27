@@ -34,11 +34,10 @@ resource "aws_iam_instance_profile" "ec2_profile" {
   role = aws_iam_role.ec2_role.name
 }
 
-#https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy
-resource "aws_iam_policy" "custom_policy_ssm" {
-  name        = "${var.name}-custom-policy-ssm"
+resource "aws_iam_policy" "custom_policy" {
+  name        = "${var.name}-custom-policy-windows-rdp"
   path        = "/"
-  description = "A policy to allow Windows Amazon EC2 instances to talk with ssm parameters."
+  description = "A policy to allow RDP to Windows Amazon EC2 instances."
 
   # Terraform's "jsonencode" function converts a
   # Terraform expression result to valid JSON syntax.
@@ -47,23 +46,72 @@ resource "aws_iam_policy" "custom_policy_ssm" {
     Statement = [
       {
         Action = [
-          "ssm:GetParameters",
-          "ssm:GetParameter"
+          "ec2:Describe*",
         ]
         Effect   = "Allow"
-        Resource = "${aws_ssm_parameter.cloudwatch_windows_config.arn}"
+        Resource = "*"
+      },
+      {
+        Effect= "Allow",
+        Action= [
+            "ec2:DescribeInstances",
+            "ec2:GetPasswordData"
+        ],
+        Resource= "*"
+      },
+      {
+        Sid= "SSM",
+        Effect="Allow",
+        Action = [
+            "ssm:DescribeInstanceProperties",
+            "ssm:GetCommandInvocation",
+            "ssm:GetInventorySchema"
+        ],
+        Resource = "*"
+      },
+      {
+        Sid = "TerminateSession",
+        Effect = "Allow",
+        Action = [
+            "ssm:TerminateSession"
+        ],
+        Resource = "*"
+      },
+      {
+        Sid = "SSMStartSession",
+        Effect = "Allow",
+        Action = [
+            "ssm:StartSession"
+        ],
+        Resource = [
+            "arn:aws:ec2:*:${data.aws_caller_identity.current.account_id}:instance/*",
+            "arn:aws:ssm:*:${data.aws_caller_identity.current.account_id}:managed-instance/*",
+            "arn:aws:ssm:*::document/AWS-StartPortForwardingSession"
+        ],
+        Condition = {
+            "BoolIfExists": {
+                "ssm:SessionDocumentAccessCheck": "true"
+            },
+            "ForAnyValue:StringEquals": {
+                "aws:CalledVia": "ssm-guiconnect.amazonaws.com"
+            }
+        }
+      },
+      {
+        Sid = "GuiConnect",
+        Effect = "Allow",
+        Action = [
+            "ssm-guiconnect:CancelConnection",
+            "ssm-guiconnect:GetConnection",
+            "ssm-guiconnect:StartConnection"
+        ],
+        Resource = "*"
       }
     ]
   })
 }
 
-#https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment
-resource "aws_iam_role_policy_attachment" "policy_attachment_custom_ssm" {
+resource "aws_iam_role_policy_attachment" "custom_rdp" {
   role       = aws_iam_role.ec2_role.name
-  policy_arn = aws_iam_policy.custom_policy_ssm.arn
-}
-
-resource "aws_iam_role_policy_attachment" "custom_cw_agent" {
-  role       = aws_iam_role.ec2_role.name
-  policy_arn = "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy"
+  policy_arn = aws_iam_policy.custom_policy.arn
 }

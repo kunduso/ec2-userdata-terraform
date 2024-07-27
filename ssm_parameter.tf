@@ -1,8 +1,12 @@
-locals {
-  config_json = jsondecode(file("${path.module}/cloudwatch_config/config.json"))
+#https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/password
+resource "random_password" "auth" {
+  length           = 32
+  special          = true
+  override_special = "!&#$"
 }
-resource "aws_ssm_parameter" "cloudwatch_windows_config" {
-  name  = "/${var.name}/Amazon-CloudWatch-Windows-Config"
-  type  = "String"
-  value = jsonencode(local.config_json)
+#https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ssm_parameter
+resource "aws_ssm_parameter" "ec2_password" {
+  name   = "/${var.name}/ec2-password"
+  type   = "SecureString"
+  value  = random_password.auth.result
 }
