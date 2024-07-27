@@ -52,61 +52,61 @@ resource "aws_iam_policy" "custom_policy" {
         Resource = "*"
       },
       {
-            Effect= "Allow",
-            Action= [
-                "ec2:DescribeInstances",
-                "ec2:GetPasswordData"
-            ],
-            Resource= "*"
-        },
-        {
-            Sid= "SSM",
-            Effect="Allow",
-            Action = [
-                "ssm:DescribeInstanceProperties",
-                "ssm:GetCommandInvocation",
-                "ssm:GetInventorySchema"
-            ],
-            Resource = "*"
-        },
-        {
-            Sid = "TerminateSession",
-            Effect = "Allow",
-            Action = [
-                "ssm:TerminateSession"
-            ],
-            Resource = "*"
-        },
-        {
-            Sid = "SSMStartSession",
-            Effect = "Allow",
-            Action = [
-                "ssm:StartSession"
-            ],
-            Resource = [
-                "arn:aws:ec2:*:${data.aws_caller_identity.current.account_id}:instance/*",
-                "arn:aws:ssm:*:${data.aws_caller_identity.current.account_id}:managed-instance/*",
-                "arn:aws:ssm:*::document/AWS-StartPortForwardingSession"
-            ],
-            Condition = {
-                "BoolIfExists": {
-                    "ssm:SessionDocumentAccessCheck": "true"
-                },
-                "ForAnyValue:StringEquals": {
-                    "aws:CalledVia": "ssm-guiconnect.amazonaws.com"
-                }
+        Effect= "Allow",
+        Action= [
+            "ec2:DescribeInstances",
+            "ec2:GetPasswordData"
+        ],
+        Resource= "*"
+      },
+      {
+        Sid= "SSM",
+        Effect="Allow",
+        Action = [
+            "ssm:DescribeInstanceProperties",
+            "ssm:GetCommandInvocation",
+            "ssm:GetInventorySchema"
+        ],
+        Resource = "*"
+      },
+      {
+        Sid = "TerminateSession",
+        Effect = "Allow",
+        Action = [
+            "ssm:TerminateSession"
+        ],
+        Resource = "*"
+      },
+      {
+        Sid = "SSMStartSession",
+        Effect = "Allow",
+        Action = [
+            "ssm:StartSession"
+        ],
+        Resource = [
+            "arn:aws:ec2:*:${data.aws_caller_identity.current.account_id}:instance/*",
+            "arn:aws:ssm:*:${data.aws_caller_identity.current.account_id}:managed-instance/*",
+            "arn:aws:ssm:*::document/AWS-StartPortForwardingSession"
+        ],
+        Condition = {
+            "BoolIfExists": {
+                "ssm:SessionDocumentAccessCheck": "true"
+            },
+            "ForAnyValue:StringEquals": {
+                "aws:CalledVia": "ssm-guiconnect.amazonaws.com"
             }
-        },
-        {
-            Sid = "GuiConnect",
-            Effect = "Allow",
-            Action = [
-                "ssm-guiconnect:CancelConnection",
-                "ssm-guiconnect:GetConnection",
-                "ssm-guiconnect:StartConnection"
-            ],
-            Resource = "*"
         }
+      },
+      {
+        Sid = "GuiConnect",
+        Effect = "Allow",
+        Action = [
+            "ssm-guiconnect:CancelConnection",
+            "ssm-guiconnect:GetConnection",
+            "ssm-guiconnect:StartConnection"
+        ],
+        Resource = "*"
+      }
     ]
   })
 }
