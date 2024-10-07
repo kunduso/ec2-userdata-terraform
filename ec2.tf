@@ -1,6 +1,6 @@
 data "aws_ami" "linux_ami" {
   filter {
-    name = "name"
+    name   = "name"
     values = ["amzn2-ami-amd-hvm-2.0.20230727.0-x86_64-gp2"]
     #values = ["Windows_Server-2019-English-Full-Base-2023*"] // for linux "amzn2-ami-amd-hvm-2.0.20230727.0-x86_64-gp2"
   }

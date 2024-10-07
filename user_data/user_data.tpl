@@ -13,7 +13,7 @@ export AWS_DEFAULT_REGION=$AWS_REGION
 echo "AWS Region: $AWS_REGION"
 
 # Fetch CloudWatch agent configuration from SSM Parameter Store
-CONFIG=$(aws ssm get-parameter --name "${SSMParameterName}" --with-decryption --query "Parameter.Value" --output text)
+CONFIG=$(aws ssm get-parameter --name "${Parameter_Name}" --with-decryption --query "Parameter.Value" --output text)
 
 # Save the configuration to a file
 echo $CONFIG > /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json
