@@ -1,0 +1,91 @@
+{
+    "agent": {
+      "metrics_collection_interval": 60,
+      "run_as_user": "root"
+    },
+    "metrics": {
+      "namespace": "CustomMetrics",
+      "metrics_collected": {
+        "cpu": {
+          "resources": [
+            "*"
+          ],
+          "measurement": [
+            "usage_active",
+            "usage_idle",
+            "usage_system",
+            "usage_user"
+          ],
+          "totalcpu": true
+        },
+        "mem": {
+          "measurement": [
+            "used_percent",
+            "used",
+            "total"
+          ]
+        },
+        "disk": {
+          "resources": [
+            "/"
+          ],
+          "measurement": [
+            "used_percent",
+            "used",
+            "total"
+          ]
+        },
+        "diskio": {
+          "resources": [
+            "*"
+          ],
+          "measurement": [
+            "reads",
+            "writes",
+            "read_bytes",
+            "write_bytes",
+            "io_time"
+          ]
+        },
+        "netstat": {
+          "measurement": [
+            "tcp_established",
+            "tcp_time_wait"
+          ]
+        }
+      },
+      "append_dimensions": {
+        "InstanceId": "${aws:InstanceId}",
+        "AutoScalingGroupName": "${aws:AutoScalingGroupName}",
+        "InstanceType": "${aws:InstanceType}"
+      },
+      "aggregation_dimensions": [
+        ["InstanceId"],
+        ["AutoScalingGroupName"],
+        ["InstanceType"]
+      ]
+    },
+    "logs": {
+      "logs_collected": {
+        "files": {
+          "collect_list": [
+            {
+              "file_path": "/var/log/messages",
+              "log_group_name": "/aws/ec2/code-advs/instance/linux",
+              "log_stream_name": "{instance_id}"
+            },
+            {
+              "file_path": "/var/log/secure",
+              "log_group_name": "/aws/ec2/code-advs/instance/linux",
+              "log_stream_name": "{instance_id}"
+            },
+            {
+              "file_path": "/var/log/cloud-init.log",
+              "log_group_name": "/aws/ec2/code-advs/instance/linux",
+              "log_stream_name": "{instance_id}/userdatalog"
+            }
+          ]
+        }
+      }
+    }
+  }
