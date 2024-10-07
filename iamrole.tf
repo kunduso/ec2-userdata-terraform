@@ -38,7 +38,7 @@ resource "aws_iam_instance_profile" "ec2_profile" {
 resource "aws_iam_policy" "custom_policy_ssm" {
   name        = "${var.name}-custom-policy-ssm"
   path        = "/"
-  description = "A policy to allow Windows Amazon EC2 instances to talk with ssm parameters."
+  description = "A policy to allow Linux Amazon EC2 instances to talk with ssm parameters."
 
   # Terraform's "jsonencode" function converts a
   # Terraform expression result to valid JSON syntax.
@@ -51,7 +51,7 @@ resource "aws_iam_policy" "custom_policy_ssm" {
           "ssm:GetParameter"
         ]
         Effect   = "Allow"
-        Resource = "${aws_ssm_parameter.cloudwatch_windows_config.arn}"
+        Resource = "${aws_ssm_parameter.cloudwatch_linux_config.arn}"
       }
     ]
   })
