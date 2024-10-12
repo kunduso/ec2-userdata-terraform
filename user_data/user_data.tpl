@@ -7,14 +7,13 @@ TOKEN=`curl -X PUT "http://169.254.169.254/latest/api/token" -H "X-aws-ec2-metad
 
 # Set the AWS region using the token
 AWS_REGION=$(curl -H "X-aws-ec2-metadata-token: $TOKEN" -v http://169.254.169.254/latest/meta-data/placement/region)
-export AWS_REGION
 export AWS_DEFAULT_REGION=$AWS_REGION
 
-echo "AWS Region: $AWS_REGION"
+echo "Setting AWS Region to: $AWS_DEFAULT_REGION"
 
 # Fetch CloudWatch agent configuration from SSM Parameter Store
-CONFIG=$(aws ssm get-parameter --name "${Parameter_Name}" --with-decryption --query "Parameter.Value" --output text)
-
+CONFIG=$(aws ssm get-parameter --name "${Parameter_Name}" --query "Parameter.Value" --output text)
+echo "Fetched CloudWatch agent configuration: $CONFIG"
 # Save the configuration to a file
 echo $CONFIG > /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json
 

@@ -13,7 +13,7 @@ data "aws_ami" "linux_ami" {
 }
 
 resource "aws_instance" "app-server" {
-  instance_type               = "t2.micro"
+  instance_type               = "t3.medium"
   ami                         = data.aws_ami.linux_ami.id
   vpc_security_group_ids      = [aws_security_group.instance-sg.id]
   subnet_id                   = aws_subnet.public.id
