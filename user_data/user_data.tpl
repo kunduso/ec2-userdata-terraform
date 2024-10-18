@@ -2,13 +2,16 @@
 # Update the instance
 yum update -y
 
+# Install the CloudWatch Agent
+yum install -y amazon-cloudwatch-agent
+echo "Installed Amazon CloudWatch Agent."
+
 # Creates token to authenticate and retrieve instance metadata
 TOKEN=`curl -X PUT "http://169.254.169.254/latest/api/token" -H "X-aws-ec2-metadata-token-ttl-seconds: 21600"`
 
 # Set the AWS region using the token
 AWS_REGION=$(curl -H "X-aws-ec2-metadata-token: $TOKEN" -v http://169.254.169.254/latest/meta-data/placement/region)
 export AWS_DEFAULT_REGION=$AWS_REGION
-
 echo "Setting AWS Region to: $AWS_DEFAULT_REGION"
 
 # Fetch CloudWatch agent configuration from SSM Parameter Store
