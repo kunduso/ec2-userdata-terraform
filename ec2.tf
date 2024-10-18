@@ -19,6 +19,12 @@ resource "aws_instance" "app-server" {
   subnet_id                   = aws_subnet.public.id
   associate_public_ip_address = true
   iam_instance_profile        = aws_iam_instance_profile.ec2_profile.name
+  metadata_options {
+    http_endpoint               = "enabled"
+    http_tokens                 = "required"
+    http_put_response_hop_limit = 1
+    instance_metadata_tags      = "enabled"
+  }
   user_data = templatefile("user_data/user_data.tpl",
     {
       Parameter_Name = aws_ssm_parameter.cloudwatch_linux_config.name
