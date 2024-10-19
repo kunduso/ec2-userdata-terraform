@@ -83,6 +83,11 @@
               "file_path": "/var/log/cloud-init.log",
               "log_group_name": "${log_group_name}",
               "log_stream_name": "{instance_id}/userdatalog"
+            },
+            {
+              "file_path": "/var/log/cloud-init-output.log",
+              "log_group_name": "${log_group_name}",
+              "log_stream_name": "{instance_id}/userdatalog-output"
             }
           ]
         }
