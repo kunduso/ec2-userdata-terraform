@@ -52,6 +52,13 @@ resource "aws_iam_policy" "custom_policy_ssm" {
         ]
         Effect   = "Allow"
         Resource = "${aws_ssm_parameter.cloudwatch_linux_config.arn}"
+      },
+      {
+        "Effect" : "Allow",
+        "Action" : [
+          "kms:Decrypt"
+        ],
+        "Resource" : "${aws_kms_key.custom_kms_key.arn}"
       }
     ]
   })
