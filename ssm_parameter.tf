@@ -4,7 +4,8 @@ locals {
   })
 }
 resource "aws_ssm_parameter" "cloudwatch_linux_config" {
-  name  = "/${var.name}/Amazon-CloudWatch-Linux-Config"
-  type  = "String"
-  value = local.config_json
+  name   = "/${var.name}/Amazon-CloudWatch-Linux-Config"
+  type   = "SecureString"
+  key_id = aws_kms_key.custom_kms_key.id
+  value  = local.config_json
 }
