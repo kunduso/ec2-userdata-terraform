@@ -32,4 +32,8 @@ resource "aws_instance" "app-server" {
   tags = {
     Name = "${var.name}-server-1"
   }
+  depends_on = [
+    aws_kms_key_policy.encrypt_app,
+    aws_kms_alias.key
+  ]
 }
