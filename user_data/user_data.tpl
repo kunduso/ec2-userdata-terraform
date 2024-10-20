@@ -37,7 +37,7 @@ else
 fi
 
 # Fetch CloudWatch agent configuration from SSM Parameter Store
-CONFIG=$(aws ssm get-parameter --name "${Parameter_Name}" --query "Parameter.Value" --output text)
+CONFIG=$(aws ssm get-parameter --name "${Parameter_Name}" --with-decryption --query "Parameter.Value" --output text)
 if [ $? -eq 0 ]; then
     echo "Fetched CloudWatch agent configuration."
 else
