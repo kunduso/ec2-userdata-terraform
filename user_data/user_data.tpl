@@ -1,83 +1,73 @@
-<powershell>
-#Function to store log data
-function Write-Log {
-[CmdletBinding()]
-param(
-[Parameter()]
-[ValidateNotNullOrEmpty()]
-[string]$Message
-)
-[pscustomobject]@{
-Time = (Get-Date -f g)
-Message = $Message
-} | Export-Csv -Path "$LogFolderPath\UserDataLogFile.log" -Append -NoTypeInformation
-}
+#!/bin/bash
+# Update the instance
+yum update -y
+if [ $? -eq 0 ]; then
+    echo "Updated the instance successfully."
+else
+    echo "Failed to update the instance."
+    exit 1
+fi
 
-##############################################
+# Install the CloudWatch Agent
+yum install -y amazon-cloudwatch-agent
+if [ $? -eq 0 ]; then
+    echo "Installed Amazon CloudWatch Agent."
+else
+    echo "Failed to install Amazon CloudWatch Agent."
+    exit 1
+fi
 
-# Execution begins from here
+# Creates token to authenticate and retrieve instance metadata
+TOKEN=$(curl -X PUT "http://169.254.169.254/latest/api/token" -H "X-aws-ec2-metadata-token-ttl-seconds: 21600")
+if [ $? -eq 0 ]; then
+    echo "Created token for instance metadata."
+else
+    echo "Failed to create token."
+    exit 1
+fi
 
-##############################################
-$LogFolderPath = "C:\UserDataLog"
-$InstallerFolderPath = $LogFolderPath+"\Installer"
-$UserName = "User03"
-$UserNameWithComputer = "$env:COMPUTERNAME"+"\"+"User03"
+# Set the AWS region using the token
+AWS_REGION=$(curl -H "X-aws-ec2-metadata-token: $TOKEN" -v http://169.254.169.254/latest/meta-data/placement/region)
+if [ $? -eq 0 ]; then
+    export AWS_DEFAULT_REGION=$AWS_REGION
+    echo "Setting AWS Region to: $AWS_DEFAULT_REGION"
+else
+    echo "Failed to fetch AWS region."
+    exit 1
+fi
 
-#Create log file location
-if (-not(Test-Path $LogFolderPath))
-{
-New-Item -ItemType directory -Path $LogFolderPath
-Write-Log -Message "Created folder to store log file."
-} else {
-Write-Log -Message "Folder already exists."
-}
-#Userdata location
-Write-Log -Message "Userdata script is stored at : $PSScriptRoot"
+# Fetch CloudWatch agent configuration from SSM Parameter Store
+CONFIG=$(aws ssm get-parameter --name "${Parameter_Name}" --with-decryption --query "Parameter.Value" --output text)
+if [ $? -eq 0 ]; then
+    echo "Fetched CloudWatch agent configuration."
+else
+    echo "Failed to fetch CloudWatch agent configuration."
+    exit 1
+fi
 
-#Create a new user if does not exist.
-$CheckIfUserExists = (Get-LocalUser).Name -Contains $UserName
-if ($CheckIfUserExists -eq $false) {
-Write-Host "$UserName does not exist and will be created."
-try {
-Write-Log -Message "Adding the user: $UserName"
-$Secure_String_Password = ConvertTo-SecureString "${Password}" -AsPlainText -Force
+# Save the configuration to a file
+echo $CONFIG > /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json
+if [ $? -eq 0 ]; then
+    echo "Saved CloudWatch agent configuration to file."
+else
+    echo "Failed to save CloudWatch agent configuration."
+    exit 1
+fi
 
-    $params = @{
-        Name        = $UserName
-        Password    = $Secure_String_Password
-        FullName    = 'Third User'
-        Description = 'Description of this account.'
-    }
-    New-LocalUser @params
-}
-catch {
-        Write-Log -Message "An error occurred:"
-        Write-Log -Message $_
-        Write-Log -Message "Could not create a local user."
-        break
-    }
-} ElseIf ($CheckIfUserExists -eq $true) {
-    Write-Log -Message "$UserName Exists."
-}
+# Start the CloudWatch agent with the new configuration
+/opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -s -c file:/opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json
+if [ $? -eq 0 ]; then
+    echo "Started CloudWatch agent with new configuration."
+else
+    echo "Failed to start CloudWatch agent."
+    exit 1
+fi
 
-#Add user to Administrators group
-Write-Log -Message "Checking if $UserName belongs to the Administrators group already."
-$CheckIfUserBelongsToAdministrator = (Get-LocalGroupMember -Group "Administrators").Name -Contains $UserName
-if ($CheckIfUserBelongsToAdministrator -eq $false) {
-Write-Log -Message "$UserName does not belong to Administrators group and will be added."
-try {
-Add-LocalGroupMember -Group "Administrators" -Member "$UserName"
-}
-catch {
-$"An error occurred:"
-Write-Log -Message $_
-Write-Log -Message "Could not add user to Administrators group."
-break
-}
-} ElseIf ($CheckIfUserBelongsToAdministrator -eq $true) {
-Write-Log -Message "$UserName is in Administrators group already."
-}
-Write-Log -Message "$UserName added to Administrators."
-
-</powershell>
-<persist>true</persist>
+# Ensure the CloudWatch agent starts on system boot
+systemctl enable amazon-cloudwatch-agent
+if [ $? -eq 0 ]; then
+    echo "Configured CloudWatch agent to start on boot."
+else
+    echo "Failed to enable CloudWatch agent on boot."
+    exit 1
+fi

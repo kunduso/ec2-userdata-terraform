@@ -1,12 +1,11 @@
-#https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/password
-resource "random_password" "auth" {
-  length           = 32
-  special          = true
-  override_special = "!&#$"
+locals {
+  config_json = templatefile("${path.module}/cloudwatch_config/linux_config.json.tftpl", {
+    log_group_name = aws_cloudwatch_log_group.logs.name
+  })
 }
-#https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ssm_parameter
-resource "aws_ssm_parameter" "ec2_password" {
-  name   = "/${var.name}/ec2-password"
+resource "aws_ssm_parameter" "cloudwatch_linux_config" {
+  name   = "/${var.name}/Amazon-CloudWatch-Linux-Config"
   type   = "SecureString"
-  value  = random_password.auth.result
+  key_id = aws_kms_key.custom_kms_key.id
+  value  = local.config_json
 }
