@@ -26,7 +26,7 @@ Ensure that the IAM user whose credentials are being used in this configuration 
 <br />And finally run `terraform apply`
 
 ## Other use-cases in this repository
-There are eleven other branches in this repository discussing other use-cases:
+There are other branches in this repository discussing other use-cases:
 <br />
 <br />
 No.|Use-Case | Branch
@@ -42,6 +42,7 @@ No.|Use-Case | Branch
 |9.|Create an Amazon EC2 instance with Session Manager access|https://github.com/kunduso/ec2-userdata-terraform/blob/add-iam-role-for-session-manager/ReadMe.md|
 |10.|Create an Amazon EC2 instance using Terraform with Session Manager access using VPC Endpoint|https://github.com/kunduso/ec2-userdata-terraform/blob/add-vpc-endpoint/ReadMe.md
 |11.|Secure RDP Access to Amazon EC2 for Windows: Leveraging Fleet Manager and Session Manager|https://github.com/kunduso/ec2-userdata-terraform/blob/enable-rdp-session-manager/ReadMe.md|
+|12.|Install and configure CloudWatch Logs agent on Amazon EC2 instance for Linux using user data|https://github.com/kunduso/ec2-userdata-terraform/tree/add-cloudwatch-agent-linux-ec2/ReadMe.md
 
 ## License
 This code is released under the Unlincse License. See [LICENSE](LICENSE).
