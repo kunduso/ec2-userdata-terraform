@@ -45,7 +45,7 @@ resource "aws_kms_key_policy" "encrypt_app" {
           }
         }
       },
-            {
+      {
         Effect : "Allow",
         Principal : {
           Service : "${local.principal_logs_arn}"

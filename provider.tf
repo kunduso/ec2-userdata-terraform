@@ -4,10 +4,6 @@ terraform {
       source  = "hashicorp/aws"
       version = "5.26.0"
     }
-    random = {
-      source = "hashicorp/random"
-      version = "3.6.2"
-    }
   }
 }
 provider "aws" {
@@ -19,7 +15,4 @@ provider "aws" {
       Source = "https://github.com/kunduso/ec2-userdata-terraform"
     }
   }
-}
-provider "random" {
-  # Configuration options
 }
