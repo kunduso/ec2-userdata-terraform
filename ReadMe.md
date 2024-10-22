@@ -20,7 +20,7 @@ Ensure that the IAM user whose credentials are being used in this configuration 
 <br />And finally run `terraform apply`
 
 ## Other use-cases in this repository
-There are eleven other branches in this repository discussing other use-cases:
+There are other branches in this repository discussing other use-cases:
 <br />
 <br />
 No.|Use-Case | Branch
