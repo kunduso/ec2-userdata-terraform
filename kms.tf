@@ -13,7 +13,7 @@ resource "aws_kms_alias" "key" {
 resource "aws_kms_key_policy" "encrypt_app" {
   key_id = aws_kms_key.custom_kms_key.id
   policy = jsonencode({
-    Id = "ssm-encryption"
+    Id = "${var.name}-encryption"
     Statement = [
       {
         Action = [
@@ -42,6 +42,25 @@ resource "aws_kms_key_policy" "encrypt_app" {
         Condition = {
           StringEquals = {
             "kms:ViaService" = "ssm.${var.region}.amazonaws.com"
+          }
+        }
+      },
+            {
+        Effect : "Allow",
+        Principal : {
+          Service : "${local.principal_logs_arn}"
+        },
+        Action : [
+          "kms:Encrypt*",
+          "kms:Decrypt*",
+          "kms:ReEncrypt*",
+          "kms:GenerateDataKey*",
+          "kms:Describe*"
+        ],
+        Resource : "*",
+        Condition : {
+          ArnEquals : {
+            "kms:EncryptionContext:aws:logs:arn" : [local.log_group_arn]
           }
         }
       }
