@@ -34,9 +34,8 @@ resource "aws_iam_instance_profile" "ec2_profile" {
   role = aws_iam_role.ec2_role.name
 }
 
-#https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy
-resource "aws_iam_policy" "custom_policy_ssm" {
-  name        = "${var.name}-custom-policy-ssm"
+resource "aws_iam_policy" "custom_policy" {
+  name        = "${var.name}-custom-policy-windows-rdp"
   path        = "/"
   description = "A policy to allow Linux Amazon EC2 instances to talk with ssm parameters."
 
@@ -47,8 +46,7 @@ resource "aws_iam_policy" "custom_policy_ssm" {
     Statement = [
       {
         Action = [
-          "ssm:GetParameters",
-          "ssm:GetParameter"
+          "ec2:Describe*",
         ]
         Effect   = "Allow"
         Resource = "${aws_ssm_parameter.cloudwatch_linux_config.arn}"
@@ -64,13 +62,7 @@ resource "aws_iam_policy" "custom_policy_ssm" {
   })
 }
 
-#https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment
-resource "aws_iam_role_policy_attachment" "policy_attachment_custom_ssm" {
+resource "aws_iam_role_policy_attachment" "custom_rdp" {
   role       = aws_iam_role.ec2_role.name
-  policy_arn = aws_iam_policy.custom_policy_ssm.arn
-}
-
-resource "aws_iam_role_policy_attachment" "custom_cw_agent" {
-  role       = aws_iam_role.ec2_role.name
-  policy_arn = "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy"
+  policy_arn = aws_iam_policy.custom_policy.arn
 }
