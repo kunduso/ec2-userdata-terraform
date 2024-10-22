@@ -29,7 +29,7 @@ Ensure that the IAM user whose credentials are being used in this configuration 
 There are twelve other branches in this repository discussing other use-cases:
 <br />
 <br />
-No.|Use-Case | Branch
+No.|Use-Case | Branch|
 |--- |--- |--- |
 |1.|Add an Amazon EC2 instance|https://github.com/kunduso/ec2-userdata-terraform/blob/add-amazon-ec2/ReadMe.md|
 |2.|Add a `user_data` script to an Amazon EC2 instance| https://github.com/kunduso/ec2-userdata-terraform/blob/add-userdata/ReadMe.md|
